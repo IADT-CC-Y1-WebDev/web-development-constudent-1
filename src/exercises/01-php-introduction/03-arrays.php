@@ -27,6 +27,12 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+            $movie = ['The Matrix', 'Iron Man', 'Whiplash', 'Interstellar', 'The Shining'];
+echo "<ul>";
+for ($i = 1; $i < count($movie); $i++) {
+    echo "<li>Movie $i: $movie[$i]</li>";
+}
+echo "</ul>";
         ?>
     </div>
 
