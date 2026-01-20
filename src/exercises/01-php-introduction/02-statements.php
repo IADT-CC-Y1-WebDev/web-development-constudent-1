@@ -27,6 +27,22 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $age = rand(0,100);
+        echo "<p>Age Group.</p>";
+
+        if ($age <= 12) {
+            echo "<p>Child.</p>";
+        }
+        else if ($age <= 19) {
+            echo "<p>Teenager.</p>";
+        }
+        else if ($age <= 64) {
+            echo "<p>Adult.</p>";
+        }
+         else {
+            echo "<p>Senior.</p>";
+         }
+
         ?>
     </div>
 
@@ -43,6 +59,47 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+
+        $day = rand(1, 7);
+
+switch (true) {
+
+case ($day === 1):
+        echo "<p>It is a Weekday.</p>";
+        echo "<p>It is Monday.</p>";
+        break;
+
+case ($day === 2):
+        echo "<p>It is a Weekday.</p>";
+        echo "<p>It is Tuesday.</p>";
+        break;
+
+case ($day === 3):
+        echo "<p>It is a Weekday.</p>";
+        echo "<p>It is Wednesday.</p>";
+        break;
+
+case ($day === 4):
+        echo "<p>It is a Weekday.</p>";
+        echo "<p>It is Thursday.</p>";
+        break;
+
+    case ($day === 5):
+        echo "<p>It is a Weekday.</p>";
+        echo "<p>It is Friday.</p>";
+        break;
+
+        case ($day === 6):
+        echo "<p>It's the Weekend.</p>";
+        echo "<p>It is Saturday.</p>";
+        break;
+
+    case ($day === 7):
+        echo "<p>It's the Weekend.</p>";
+        echo "<p>It is Sunday.</p>";
+        break;
+
+}
         ?>
     </div>
 
@@ -58,6 +115,39 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $table = (5);
+        for($i =0; $i < 1; $i++) {
+            echo"<p> 1 x $table = 5</p>";
+        }
+
+        for($i =0; $i < 1; $i++) {
+            echo"<p> 2 x $table = 10</p>";
+        }
+        for($i =0; $i < 1; $i++) {
+            echo"<p> 3 x $table = 15</p>";
+        }
+        for($i =0; $i < 1; $i++) {
+            echo"<p> 4 x $table = 20</p>";
+        }
+        for($i =0; $i < 1; $i++) {
+            echo"<p> 5 x $table = 25</p>";
+        }
+        for($i =0; $i < 1; $i++) {
+            echo"<p> 6 x $table = 30</p>";
+        }
+        for($i =0; $i < 1; $i++) {
+            echo"<p> 7 x $table = 35</p>";
+        }
+        for($i =0; $i < 1; $i++) {
+            echo"<p> 8 x $table = 40</p>";
+        }
+        for($i =0; $i < 1; $i++) {
+            echo"<p> 9 x $table = 45</p>";
+        }
+        for($i =0; $i < 1; $i++) {
+            echo"<p> 10 x $table = 50</p>";
+        }
+
         ?>
     </div>
 
@@ -73,6 +163,14 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+            $timer = (10);
+echo "<p>Countdown from $timer .</p>";
+while ($timer > 0) {
+    echo "<p>There are $timer seconds left";
+    $timer = $timer - 1;
+    echo "...</p>";
+}
+echo "<p>Blast off!</p>";
         ?>
     </div>
 
