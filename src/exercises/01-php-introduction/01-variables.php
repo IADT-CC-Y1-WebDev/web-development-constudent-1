@@ -48,6 +48,10 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $price = 99.99;
+        $quantity = 3;
+        $total = $price * $quantity;
+        echo "Total: $$total";
         ?>
     </div>
 
@@ -63,6 +67,13 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $isStudent = true;
+        $hasDiscount = true;
+        $ispremiumMember = false;
+
+        echo "Student" . ($isStudent ? " Yes" : " No") . "<br>";
+        echo "Discount" . ($hasDiscount ? " Yes" : " No") . "<br>";
+        echo "Premium" . ($ispremiumMember ? " Yes" : " No");
         ?>
     </div>
 
