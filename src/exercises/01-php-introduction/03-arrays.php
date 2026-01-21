@@ -47,7 +47,22 @@ echo "</ul>";
     <p class="output-label">Output:</p>
     <div class="output">
         <?php
-        // TODO: Write your solution here
+        // TODO: Write your solution here Create an associative array for a student with keys: name, studentId, course, and grade. Display this information in a formatted sentence.
+        $student = [
+            "name" => "billy",
+            "studentId" => "12345678",
+            "course" => "Computer science",
+            "grade" => 97%
+        ];
+
+        $text =
+        "{$student['name']}Student ID:{$student['studentId']}" . 
+        "course: {$student['course']} grade:{$student['grade']}.";
+
+        print("<p>$text</p>");
+
+
+
         ?>
     </div>
 
