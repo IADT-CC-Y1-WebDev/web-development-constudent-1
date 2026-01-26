@@ -55,13 +55,11 @@ echo "</ul>";
             "grade" => 97%
         ];
 
-        $text =
+        $text = 
         "{$student['name']}Student ID:{$student['studentId']}" . 
         "course: {$student['course']} grade:{$student['grade']}.";
 
         print("<p>$text</p>");
-
-
 
         ?>
     </div>
