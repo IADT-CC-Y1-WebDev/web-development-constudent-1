@@ -49,18 +49,18 @@ echo "</ul>";
         <?php
         // TODO: Write your solution here Create an associative array for a student with keys: name, studentId, course, and grade. Display this information in a formatted sentence.
         $student = [
-            "name" => "billy",
+            "name" => "Billy",
             "studentId" => "12345678",
             "course" => "Computer science",
-            "grade" => 97%
+            "grade" => 97
         ];
-
+        echo "<ul>";
         $text = 
-        "{$student['name']}Student ID:{$student['studentId']}" . 
-        "course: {$student['course']} grade:{$student['grade']}.";
+        "<li><b>Name:</b> {$student['name']}</li> <li><b>Student ID:</b> {$student['studentId']}" . 
+        "<li><b>course:</b> {$student['course']}</li> <li><b> grade:</b> {$student['grade']}</li>";
 
         print("<p>$text</p>");
-
+        echo "</ul>";
         ?>
     </div>
 
@@ -77,6 +77,18 @@ echo "</ul>";
     <div class="output">
         <?php
         // TODO: Write your solution here
+         $countries = [
+            "Germany" => "Berlin",
+            "France" => "Paris",
+            "Ireland" => "Dublin",
+            "Belgium" => "Brussels",
+            "Japan" => "Tokyo"
+        ];
+        echo "<ul>";
+        foreach ($countries as $country => $text) {
+            echo "<li>The capital of $country is $text</li>";
+        }
+        echo "</ul>";
         ?>
     </div>
 
@@ -94,6 +106,35 @@ echo "</ul>";
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $Starters = [
+            'starters' => [
+            "Chicken wings" => "$9.99",
+            "Mash potatoes " => "$12.99",
+            "Beef stew" => "$4.99",
+            "Fries" => "$3.99",
+            "Sweet potatoe fries" => "$2.99"
+            ]
+    ];
+        $Maincourse = [
+            'maincourse' => [
+            "Chicken" => "$14.99",
+            "potatoes " => "$4.99",
+            "Beef" => "$28.99",
+            "beans" => "$3.99",
+            "Squid" => "$22.99"
+            ]
+    ];
+        echo "<ul>";
+        $text = 
+        "<li><b>Starters:</b>{$Starters['starters']}" . 
+        "<li><b>Main Course:</b>{$Maincourse['maincourse']}";
+
+        print("<p>$text</p>");
+        echo "</ul>";
+            
+         echo "<p>Our Cheapest Item is Sweet Potatoe Fries at {$Starters['starters']['Sweet potatoe fries']}.</p>";
+         
+
         ?>
     </div>
 
