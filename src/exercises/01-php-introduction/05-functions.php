@@ -25,6 +25,14 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+
+        function celsiusToFahrenheit($celsius) {
+            return ($celsius * 9/5) + 32;
+        }
+        $celsiusTemperature =36;
+        $fahrenheitTemperature = celsiusToFahrenheit($celsiusTemperature);
+        echo "Temperature in Fahrenheit: " . $fahrenheitTemperature;
+
         ?>
     </div>
 
@@ -41,6 +49,22 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        function calculateRectangleArea($length, $width) {
+            return $length * $width;
+        }
+
+        function calculatePerimeter($length, $width) {
+            return 2 * ($length + $width);
+        }
+
+        $length = 12;
+        $width = 6;
+
+        $area = calculateRectangleArea($length, $width);
+        $perimeter = calculatePerimeter($length, $width);
+
+        echo "Area of Rectangle: $area\n";
+        echo "Perimeter of Rectangle: $perimeter";
         ?>
     </div>
 
@@ -57,6 +81,18 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        function checkEvenOdd($number){
+            if($number %2 ==0){
+                echo "Even";
+            }
+            else{
+                echo "Odd";
+            }
+        }
+
+        $number = rand(0, 100);
+        checkEvenOdd($number) 
+
         ?>
     </div>
 
@@ -73,6 +109,10 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        function getArrayStats(array $numbers) {
+            if($numbers)
+        }
+
         ?>
     </div>
 

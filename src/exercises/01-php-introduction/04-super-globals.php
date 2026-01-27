@@ -27,6 +27,20 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        echo "<pre>";
+        echo "<b><p>PHP_SELF</p></b>";
+        print_r($_SERVER["PHP_SELF"] );
+        echo "<br>";
+        echo "<b><p>REQUEST_METHOD</p></b>";
+        print_r($_SERVER["REQUEST_METHOD"] );     
+        echo "<br>";
+        echo "<b><p>HTTP_HOST</p></b>";
+        print_r($_SERVER["HTTP_HOST"] );
+        echo "<br>";
+        echo "<b><p>HTTP_USER_AGENT</p></b>";
+        print_r($_SERVER["HTTP_USER_AGENT"] );
+        echo "</pre>";
+
         ?>
     </div>
 
@@ -43,6 +57,17 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        echo "<pre>";
+        print_r($_GET);
+        echo "</pre>";
+
+        if (isset($_GET['name'])) {
+            $name = $_GET['name'];
+        }
+        else {
+            $name = "Guest";
+        }
+        echo "Hello, $name";
         ?>
     </div>
 
@@ -60,6 +85,19 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        echo "<pre>";
+        print_r($_GET);
+        echo "</pre>";
+
+        if (isset($_GET['Widget&quantity'])) {
+            $product = $_GET['Widget&quantity'];
+        }
+        else {
+            $product = "error";
+        }
+        echo "You ordered $product";
+
+
         ?>
     </div>
 
