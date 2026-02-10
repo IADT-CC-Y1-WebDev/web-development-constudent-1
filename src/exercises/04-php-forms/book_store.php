@@ -87,6 +87,7 @@ try {
 
      $rules = [
         'title' => 'required|notempty|min:1|max:255',
+        'author' => 'required|notempty|min:1|max:255',
         'price' => 'required|float|minvalue:0',
         'description' => 'required|notempty|min:10|max:1000',
         'publisher' => 'required|notempty|min:1|max:255',
@@ -164,7 +165,7 @@ catch (Exception $e) {
     setFlashMessage('error', 'Error: ' . $e->getMessage());
     setFormErrors($errors);
     setFormData($data);
-    redirect('product_create.php');
+    redirect('book_create.php');
 }
 
     // =========================================================================
@@ -174,7 +175,7 @@ catch (Exception $e) {
     // TODO: In the catch block, store validation errors in the session
     // TODO: Redirect back to the form
 
-    echo "Error: " . $e->getMessage();
+    // echo "Error: " . $e->getMessage();
     // =========================================================================
     // STEP 6: Store Form Data for Repopulation
     // See: /examples/04-php-forms/step-06-repopulate-fields/

@@ -24,7 +24,7 @@ require_once './lib/utils.php';
 
 // Start the session
 startSession();
-dd($_FILES, true);
+// dd($_FILES, true);
 
 /**
  * Mock data for the form. 
@@ -98,6 +98,10 @@ $formats = [
                  TODO: Display error message if title validation fails
             -->
 
+                <?php if (error('title')): ?>
+                    <p class="error"><?= error('title') ?></p>
+                <?php endif; ?>
+
         </div>
 
         <!-- =============================================================== -->
@@ -109,7 +113,9 @@ $formats = [
             <input type="text" id="author" name="author" value="">
 
             <!-- TODO: Display error message if author validation fails      -->
-
+             <?php if (error('author')): ?>
+                    <p class="error"><?= error('author') ?></p>
+                <?php endif; ?>
         </div>
 
         <!-- =============================================================== -->
