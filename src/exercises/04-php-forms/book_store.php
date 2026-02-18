@@ -30,7 +30,7 @@ try {
     // See: /examples/04-php-forms/step-01-form-submission/
     // =========================================================================
     // TODO: First, just dump the posted data to see what's submitted
-// dd($_POST);
+    // dd($_POST);
 
     // =========================================================================
     // STEP 2: Check Request Method
@@ -38,13 +38,13 @@ try {
     // =========================================================================
     // TODO: Check that the request method is POST
 
-        // Step 2: Check request method - only accept POST requests
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            throw new Exception('Invalid request method.');
-        }
+    // Step 2: Check request method - only accept POST requests
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Invalid request method.');
+    }
 
-        // If we get here, we have a valid POST request
-        dd($_POST);
+    // If we get here, we have a valid POST request
+    dd($_POST);
 
 
     // =========================================================================
@@ -62,11 +62,11 @@ try {
     $data = [
         'title' => $_POST['title'] ?? null,
         'price' => $_POST['price'] ?? null,
-        'publisher' => $_POST['publisher'] ?? null,
+        'publisher_id' => $_POST['publisher_id'] ?? null,
         'year' => $_POST['year'] ?? null,
         'isbn' => $_POST['isbn'] ?? null,
         'description' => $_POST['description'] ?? null,
-        'cover' => $_POST['cover'] ?? null,
+        'cover' => $_FILES['cover'] ?? null,
         'format_ids' => $_POST['format_ids'] ?? [],
     ];
 
@@ -142,7 +142,7 @@ try {
     // =========================================================================
     // TODO: On successful registration, set a success flash message and 
     // redirect back to the form
-$uploader = new ImageUpload();
+    $uploader = new ImageUpload();
     $imageFilename = $uploader->process($_FILES['cover']);
 
     if (!$imageFilename) {

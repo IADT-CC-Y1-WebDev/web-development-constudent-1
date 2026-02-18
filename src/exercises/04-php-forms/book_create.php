@@ -89,7 +89,7 @@ $formats = [
                  ===========================================================
                  TODO: Repopulate title field
             -->
-            <input type="text" id="title" name="title" value="">
+            <input type="text" id="title" name="title" value="<?= old('title') ?>">
 
             <!-- ===========================================================
                  STEP 5: Display Errors
@@ -113,9 +113,9 @@ $formats = [
             <input type="text" id="author" name="author" value="">
 
             <!-- TODO: Display error message if author validation fails      -->
-             <?php if (error('author')): ?>
-                    <p class="error"><?= error('author') ?></p>
-                <?php endif; ?>
+            <?php if (error('author')): ?>
+                <p class="error"><?= error('author') ?></p>
+            <?php endif; ?>
         </div>
 
         <!-- =============================================================== -->
@@ -140,6 +140,9 @@ $formats = [
             </select>
 
             <!-- TODO: Display error message if publisher validation fails   -->
+            <?php if (error('publisher')): ?>
+                <p class="error"><?= error('publisher') ?></p>
+            <?php endif; ?>
 
         </div>
 
