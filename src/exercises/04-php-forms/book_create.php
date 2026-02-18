@@ -167,7 +167,9 @@ $formats = [
             <input type="text" id="isbn" name="isbn" value="">
 
             <!-- TODO: Display error message if ISBN validation fails        -->
-
+                <?php if (error('isbn')): ?>
+                <p class="error"><?= error('isbn') ?></p>
+            <?php endif; ?>
         </div>
 
         <!-- =============================================================== -->
@@ -192,7 +194,9 @@ $formats = [
             </div>
 
             <!-- TODO: Display error message if formats validation fails     -->
-
+                    <?php if (error('checkbox-label')): ?>
+                <p class="error"><?= error('checkbox-label') ?></p>
+            <?php endif; ?>
         </div>
 
         <!-- =============================================================== -->
@@ -204,7 +208,9 @@ $formats = [
             <textarea id="description" name="description" rows="5"></textarea>
 
             <!-- TODO: Display error message if description validation fails -->
-
+                      <?php if (error('description')): ?>
+                <p class="error"><?= error('description') ?></p>
+            <?php endif; ?>  
         </div>
 
         <!-- =============================================================== -->
@@ -217,7 +223,9 @@ $formats = [
             <input type="file" id="cover" name="cover" accept="image/*">
 
             <!-- TODO: Display error message if cover validation fails       -->
-
+                         <?php if (error('cover')): ?>
+                <p class="error"><?= error('cover') ?></p>
+            <?php endif; ?>  
         </div>
 
         <!-- =============================================================== -->
