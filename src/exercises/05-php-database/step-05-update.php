@@ -43,6 +43,16 @@ catch (PDOException $e) {
             <?php
             // TODO: Write your solution here
             // 1. Fetch and display book ID 1
+            function updateGame($db, $id, $title, $author, $year, $publisherId, $description) {
+            $stmt = $db->prepare("
+                UPDATE books
+                SET title = :title,
+                    release_date = :release_date,
+                    genre_id = :genre_id,
+                    description = :description
+                WHERE id = :id
+            ");
+
             // 2. Prepare: UPDATE books SET description = :description WHERE id = :id
             // 3. Execute with new description + timestamp
             // 4. Check rowCount()

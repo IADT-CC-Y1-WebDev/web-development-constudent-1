@@ -155,7 +155,9 @@ $formats = [
             <input type="text" id="year" name="year" value="">
 
             <!-- TODO: Display error message if year validation fails        -->
-
+                  <?php if (error('year')): ?>
+                <p class="error"><?= error('year') ?></p>
+            <?php endif; ?>
         </div>
 
         <!-- =============================================================== -->

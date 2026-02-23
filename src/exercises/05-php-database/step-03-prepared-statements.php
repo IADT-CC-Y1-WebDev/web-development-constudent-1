@@ -42,8 +42,45 @@ catch (PDOException $e) {
             <?php
             // TODO: Write your solution here
             // 1. Prepare: SELECT * FROM books WHERE id = :id
+            $id = 1;
+            $stmt = $db->prepare("SELECT * FROM books WHERE id = :id");
             // 2. Execute with ['id' => 1]
+            $stmt->execute(['id' => $id]);
+            $book = $stmt->fetch();
+
+            if ($book) {
+                echo "<p class='success'>Found: " . htmlspecialchars($book['title']) . "</p>";
+            } else {
+                echo "<p>Book not found</p>";
+            }
             // 3. Fetch and display result
+            $publisher_id = 1;  // Penguin Random House
+            $year = '1940';
+
+            $stmt = $db->prepare("
+                SELECT * FROM books
+                WHERE publisher_id = :publisher_id
+                AND year > :year
+                ORDER BY title
+            ");
+
+            $stmt->execute([
+                'publisher_id' => $publisher_id,
+                'year' => $year
+            ]);
+
+            $books = $stmt->fetchAll();
+
+            if (count($books) > 0) {
+                echo "<ul>";
+                foreach ($books as $book) {
+                    echo "<li>" . htmlspecialchars($book['title']) . " (" . $book['year'] . ")</li>";
+                }
+                echo "</ul>";
+            } else {
+                echo "<p>No books found matching criteria.</p>";
+            }
+
             ?>
         </div>
 
@@ -63,7 +100,22 @@ catch (PDOException $e) {
             // 1. Prepare: SELECT * FROM books WHERE author LIKE :search
             // 2. Execute with ['search' => '%George%']
             // 3. Loop through and display results
-            ?>
+            // Include wildcards in the value
+            $search = 'Rob';
+            $stmt = $db->prepare("SELECT * FROM books WHERE author LIKE :search ORDER BY author");
+            $stmt->execute(['search' => "%$search%"]);
+
+            $books = $stmt->fetchAll();
+
+            if (count($books) > 0) {
+                echo "<ul>";
+                foreach ($books as $book) {
+                    echo "<li>" . htmlspecialchars($book['title']) . " (" . $book['year'] . ")</li>";
+                }
+                echo "</ul>";
+            } else {
+                echo "<p>No books found matching criteria.</p>";
+            }            ?>
         </div>
     </div>
 </body>
