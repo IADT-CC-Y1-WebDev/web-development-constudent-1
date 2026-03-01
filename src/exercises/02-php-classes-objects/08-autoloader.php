@@ -48,6 +48,19 @@
         // use College\Student;
         // $student = new Student("Alice", "C12345");
         // echo $student;
+
+            spl_autoload_register(function ($class) {
+            $path = str_replace('\\', DIRECTORY_SEPARATOR, $class);
+            $file = __DIR__ . '/classes/' . $path . '.php';
+            if (file_exists($file)) {
+                require_once $file;
+            }
+        });
+
+        use College\Student;
+
+        $student = new Student("Billy", "4206767");
+        echo $student;
         ?>
     </div>
 
@@ -69,6 +82,19 @@
         // use College\Student;
         // use College\Undergrad;
         // use College\Postgrad;
+        require_once __DIR__ . '/etc/config.php';
+
+        use College\Student as CollegeStudent;
+        use College\Undergrad as CollegeUndergrad;
+        use College\Postgrad as CollegePostgrad;
+
+            $student = new Student("Billy", "4206767");
+            $ug = new Undergrad("Bill", "420000", "Maths", 2);
+            $pg = new Postgrad("Jarad", "999", "Dr. Vanity", "Music");
+
+            echo $student . "<br>";
+            echo $ug . "<br>";
+            echo $pg;
         ?>
     </div>
 
@@ -93,6 +119,28 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+         require_once __DIR__ . '/etc/config.php';
+
+        use College\Student as CollegeStudents;
+        use College\Undergrad as CollegeUndergrads;
+        use College\Postgrad as CollegePostgrads;
+
+            $students = [
+        new Student("Ace", "S1001"),
+        new Student("Holly", "S1002"),
+        new Undergrad("Billy", "4206767", "Maths", 1),
+        new Postgrad("Jarad", "999", "Dr. Vanity", "Music"),
+        new Undergrad("Cassie", "U2002", "Physics", 2)
+        ];
+
+        echo "<strong>All students:</strong><br>";
+        foreach (Student::findAll() as $s) {
+            echo $s . "<br>";
+        }
+
+        $found = Student::findByNumber("4206767");
+        echo "<br><strong>Found student 4206767:</strong><br>";
+        echo $found;
         ?>
     </div>
 
