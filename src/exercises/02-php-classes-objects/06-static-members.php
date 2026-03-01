@@ -37,6 +37,16 @@
         <?php
         // TODO: Write your solution here
         // require_once __DIR__ . '/classes/Student.php';
+        require_once __DIR__ . '/classes/Student.php';
+
+            $s1 = new Student("Alice", "U001");
+                echo "Count: " . Student::getCount() . "<br>";
+
+            $s2 = new Student("Bob", "U002");
+                echo "Count: " . Student::getCount() . "<br>";
+
+            $s3 = new Student("Charlie", "U003");
+                echo "Count: " . Student::getCount() . "<br>";
         ?>
     </div>
 
