@@ -33,6 +33,14 @@
         <?php
         // TODO: Write your solution here
         // require_once __DIR__ . '/classes/Student.php';
+        require_once __DIR__ . '/classes/Student.php';
+
+        $student1 = new Student("Bill", "4206767");
+        $student2 = new Student("Billy", "420000");
+
+        echo "Student 1: " . $student1->getName() . ", Number: " . $student1->getNumber() . "<br>";
+        echo "Student 2: " . $student2->getName() . ", Number: " . $student2->getNumber();
+
         ?>
     </div>
 
@@ -53,6 +61,10 @@
         <?php
         // TODO: Write your solution here
         // require_once __DIR__ . '/classes/Student.php';
+        require_once __DIR__ . '/classes/Student.php';
+        $student = new Student("Bill", "4206767");
+
+        echo $student;
         ?>
     </div>
 
@@ -74,6 +86,16 @@
         <?php
         // TODO: Write your solution here
         // require_once __DIR__ . '/classes/Student.php';
+        require_once __DIR__ . '/classes/Student.php';
+
+        echo "Creating students...<br>";
+        $stu1 = new Student("Bill", "4206767");
+        $stu2 = new Student("Billy", "420000");
+
+        echo "<br>Setting stu1 to null...<br>";
+        $stu1 = null; 
+
+        echo "<br>Script ending...<br>";
         ?>
     </div>
 
@@ -100,6 +122,15 @@
         // echo "Setting student1 to null...<br>";
         // $student1 = null;
         // echo "Script ending...<br>";
+        require_once __DIR__ . '/classes/Student.php';
+
+        $student1 = new Student("Alice", "S001");
+        $student2 = new Student("Bob", "S002");
+
+        echo "<p>" . $student1 . "</p>";
+        echo "<p>" . $student2 . "</p>";
+
+        echo "<p>First student: " . $student1 . "</p>";
         ?>
     </div>
 
