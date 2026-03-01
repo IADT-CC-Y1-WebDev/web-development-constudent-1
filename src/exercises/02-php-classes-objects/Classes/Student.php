@@ -6,7 +6,7 @@ class Student {
     protected $number;
 
     public function __construct($name, $number) {
-        echo "Creating student: $name<br>";
+        //echo "Creating student: $name<br>";
         if (empty($number)) {
             throw new Exception("Student number cannot be empty");
         }
@@ -28,6 +28,6 @@ class Student {
     }
 
     public function __destruct() {
-        echo "Destroying student: {$this->name}<br>";
+        //echo "Destroying student: {$this->name}<br>";
     }
 }
