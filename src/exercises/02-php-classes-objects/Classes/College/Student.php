@@ -1,4 +1,5 @@
 <?php
+namespace College;
 
 class Student {
     private static $students = [];

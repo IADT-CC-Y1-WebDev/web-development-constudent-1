@@ -38,6 +38,10 @@
         // require_once __DIR__ . '/classes/College/Student.php';
         // $student = new \College\Student("Alice", "C12345");
         // echo $student;
+        require_once __DIR__ . '/classes/College/Student.php';
+
+        $s1 = new \College\Student("Con", "777");
+            echo "Count: " . \College\Student::getCount() . "<br>";
         ?>
     </div>
 
@@ -58,6 +62,20 @@
         // use College\Student;
         // $student = new Student("Bob", "C12346");
         // echo $student;
+        require_once __DIR__ . '/classes/College/Student.php';
+
+        use College\Student;
+
+        $s1 = new Student("Bob", "C12346");
+
+        echo "<strong>All students:</strong><br>";
+        foreach (Student::findAll() as $student) {
+        echo $student . "<br>";
+    }
+
+        echo "<br><strong>Finding student C12346:</strong><br>";
+        $found = Student::findByNumber("C12346");
+        echo $found;
         ?>
     </div>
 
@@ -85,7 +103,23 @@
         // use College\Student;
         // use College\Undergrad;
         // use College\Postgrad;
-        ?>
+        require_once __DIR__ . '/classes/College/Student.php';
+        require_once __DIR__ . '/classes/College/Undergrad.php';
+        require_once __DIR__ . '/classes/College/Postgrad.php';
+
+        use College\Student as CollegeStudent;   
+        use College\Undergrad;
+        use College\Postgrad;
+
+        $student = new CollegeStudent("Alice", "C12345");
+        $ug = new Undergrad("Bob", "U12345", "Maths", 2);
+        $pg = new Postgrad("Charlie", "P12345", "Dr. Smith", "Physics");
+
+        echo "<strong>All College students:</strong><br>";
+        echo $student . "<br>";
+        echo $ug . "<br>";
+        echo $pg;
+     ?>
     </div>
 
 </body>
