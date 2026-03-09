@@ -16,7 +16,7 @@
 <div class="container">
     <h1>Books</h1>
     <p>
-        <a class="button" href="book_create.php">Add New Book</a>
+        <a class="book_card" href="book_create.php">Add New Book</a>
     </p>
 
     <?php if (empty($books)) { ?>
@@ -25,7 +25,7 @@
 
         <?php foreach ($books as $book) { ?>
             <div class="book_card">
-                <h3><?php echo h($book->title); ?></h3>
+                <h2><?php echo h($book->title); ?></h2>
                 <p>Published Year: <?php echo h($book->published_year); ?></p>
 
                 <div class="actions">

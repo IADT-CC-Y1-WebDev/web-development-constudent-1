@@ -2,6 +2,7 @@
 require_once 'php/lib/config.php';
 require_once 'php/classes/Book.php';
 
+
 try {
     $books = Book::findAll();
 } catch (Exception $e) {
