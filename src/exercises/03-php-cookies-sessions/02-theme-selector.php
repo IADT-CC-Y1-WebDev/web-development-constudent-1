@@ -11,6 +11,9 @@
 // Hint: Check if session is not already started, then call session_start()
 // -----------------------------------------------------------------------------
 // TODO: Start the session here
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // =============================================================================
 
@@ -23,7 +26,12 @@
 // 4. Call exit
 // -----------------------------------------------------------------------------
 // TODO: Handle cookie theme selection here
-
+if (isset($_GET['cookie_theme'])) {
+    $theme = $_GET['cookie_theme'];
+    setcookie('theme', $theme, time() + (60 * 60 * 24 * 30), '/'); // 30 days
+    header('Location: 02-theme-selector.php');
+    exit;
+}
 // =============================================================================
 
 // =============================================================================
@@ -35,7 +43,11 @@
 // 4. Call exit
 // -----------------------------------------------------------------------------
 // TODO: Handle session theme selection here
-
+if (isset($_GET['session_theme'])) {
+    $_SESSION['theme'] = $_GET['session_theme'];
+    header('Location: 02-theme-selector.php');
+    exit;
+}
 // =============================================================================
 
 // =============================================================================
@@ -44,6 +56,17 @@
 // For $_GET['reset_session']: unset $_SESSION['theme']
 // -----------------------------------------------------------------------------
 // TODO: Handle reset actions here
+if (isset($_GET['reset_cookie'])) {
+    setcookie('theme', '', time() - 3600, '/');
+    header('Location: 02-theme-selector.php');
+    exit;
+}
+
+if (isset($_GET['reset_session'])) {
+    unset($_SESSION['theme']);
+    header('Location: 02-theme-selector.php');
+    exit;
+}
 
 // =============================================================================
 
@@ -63,6 +86,12 @@ $themes = [
 // Bonus Exercise: Apply selected theme to page background and text color
 // -----------------------------------------------------------------------------
 // TODO: Determine which theme to apply (cookie takes precedence over session)
+$appliedTheme = 'default';
+if ($cookieTheme !== 'not set' && isset($themes[$cookieTheme])) {
+    $appliedTheme = $themes[$cookieTheme];
+} elseif ($sessionTheme !== 'not set' && isset($themes[$sessionTheme])) {
+    $appliedTheme = $themes[$sessionTheme];
+}
 
 // =============================================================================
 ?>
@@ -202,7 +231,7 @@ $themes = [
         // ---------------------------------------------------------------------
         // TODO: After testing, write a comment explaining the difference
         // between cookie persistence and session persistence.
-        echo "Answer: The cookie-based theme remains 'dark' because cookies " . 
+        echo "Answer: The cookie based theme remains 'dark' because cookies " . 
              "are stored on the client's browser and persist even after closing " . 
              "the browser. The session-based theme resets to 'not set' because " . 
              "sessions are temporary and stored on the server; they end when the " . 

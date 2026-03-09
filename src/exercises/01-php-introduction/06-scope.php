@@ -27,7 +27,20 @@
     <p class="output-label">Output:</p>
     <div class="output">
         <?php
-        // TODO: Write your solution here
+     // TODO: Write your solution here
+        $totalPoints = 0;
+
+        function addPoints($points) {
+            global $totalPoints; 
+            $totalPoints += $points;
+            
+            echo "<p>Added $points points. Total is now: $totalPoints</p>";
+        }
+
+        addPoints(10);
+        addPoints(50);
+        addPoints(25);
+
         ?>
     </div>
 
@@ -44,6 +57,21 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+
+        function visitCounter() {
+
+            static $count = 0; 
+            
+            $count++;
+            echo "<p>Visit number: $count</p>";
+        }
+
+        visitCounter();
+        visitCounter();
+        visitCounter();
+        visitCounter();
+        visitCounter();
+
         ?>
     </div>
 
@@ -61,6 +89,14 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $message = "Global";
+        function testScope() {
+            $message = "Local"; 
+            echo "<p>Inside function: message is $message</p>";
+        }
+        testScope();
+        echo "<p>Outside function: message is $message</p>";
+        
         ?>
     </div>
 

@@ -49,55 +49,9 @@ catch (PDOException $e) {
             <?php
             // TODO: Write your solution here
             // 1. Execute SELECT * FROM books ORDER BY title
-             $stmt = $db->query("SELECT * FROM books ORDER BY title");
-            $games = $stmt->fetchAll();
-
-            echo "<p>Found " . count($books) . " books</p>";
-            foreach ($books as $book) {
-                echo "<p>" . htmlspecialchars($book['title']) . " (" . $book['release_date'] . ")</p>";
-            }
-
             // 2. Fetch all results
-            $stmt = $db->query("SELECT id, title, release_date, description FROM books ORDER BY title");
-            $games = $stmt->fetchAll();
-
-         
-            $stmt = $db->query("SELECT id, title, release_date, description FROM books ORDER BY title");
-            $games = $stmt->fetchAll();
-            
             // 3. Display count
-    
-            $stmt = $db->query("SELECT COUNT(*) as total FROM books");
-            $result = $stmt->fetch();
-            echo "<p>Total books (SQL COUNT): " . $result['total'] . "</p>";
-
-            $stmt = $db->query("SELECT * FROM books");
-            $games = $stmt->fetchAll();
-            echo "<p>Total books (count array): " . count($books) . "</p>";
-            ?>
-            
             // 4. Create HTML table with the results
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Release Date</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($games as $game): ?>
-                    <tr>
-                        <td><?= $game['id'] ?></td>
-                        <td><?= htmlspecialchars($game['title']) ?></td>
-                        <td><?= $game['release_date'] ?></td>
-                        <td><?= htmlspecialchars(substr($game['description'], 0, 50)) ?>...</td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-
             ?>
         </div>
     </div>

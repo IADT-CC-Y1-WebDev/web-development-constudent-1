@@ -37,6 +37,16 @@
         <?php
         // TODO: Write your solution here
         // require_once __DIR__ . '/classes/Student.php';
+        require_once __DIR__ . '/classes/Student.php';
+
+            $s1 = new Student("Billy", "4206767");
+                echo "Count: " . Student::getCount() . "<br>";
+
+            $s2 = new Student("Bill", "420000");
+                echo "Count: " . Student::getCount() . "<br>";
+
+            $s3 = new Student("Jarad", "999");
+                echo "Count: " . Student::getCount() . "<br>";
         ?>
     </div>
 
@@ -72,6 +82,20 @@
         <?php
         // TODO: Write your solution here
         // require_once __DIR__ . '/classes/Student.php';
+        require_once __DIR__ . '/classes/Student.php';
+
+        $s1 = new Student("Billy", "4206767");
+        $s2 = new Student("Bill", "420000");
+        $s3 = new Student("Jarad", "999");
+
+            echo "<strong>All students:</strong><br>";
+            foreach (Student::findAll() as $student) {
+                echo $student . "<br>";
+            }
+
+            echo "<br><strong>Finding student 420000:</strong><br>";
+            $found = Student::findByNumber("420000");
+            echo $found;
         ?>
     </div>
 
@@ -94,6 +118,21 @@
         // TODO: Write your solution here
         // require_once __DIR__ . '/classes/Undergrad.php';
         // require_once __DIR__ . '/classes/Postgrad.php';
+        require_once __DIR__ . '/classes/Student.php';
+        require_once __DIR__ . '/classes/Undergrad.php';
+        require_once __DIR__ . '/classes/Postgrad.php';
+
+            $s1 = new Student("Bill", "420000");
+            $ug1 = new Undergrad("Billy", "4206767", "Maths", 2);
+            $pg1 = new Postgrad("Jarad", "999", "Dr. Vanity", "Music");
+
+                echo "<strong>All students, Undergrad, and Postgrad:</strong><br>";
+                foreach (Student::findAll() as $s) {
+                    echo $s . "<br>";
+                }
+
+                echo "<br><strong>Finding student 4206767:</strong><br>";
+                echo Student::findByNumber("4206767");
         ?>
     </div>
 
@@ -123,7 +162,23 @@
         <?php
         // TODO: Write your solution here
         // require_once __DIR__ . '/classes/Student.php';
-        ?>
+        require_once __DIR__ . '/classes/Student.php';
+
+        $student1 = new Student("Ace", "1234");
+        $student2 = new Student("Holly", "12345");
+        $student3 = new Student("Cassie", "123456");
+
+        echo "Count before removal: " . Student::getCount() . "<br>";
+
+        $student2->leave();
+        unset($student2);
+
+        echo "Count after removal: " . Student::getCount() . "<br>";
+
+        foreach (Student::findAll() as $student) { 
+            echo $student . "<br>";
+        }
+?>
     </div>
 
 </body>

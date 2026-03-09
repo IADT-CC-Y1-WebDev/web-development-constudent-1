@@ -21,9 +21,14 @@
     <p class="output-label">Output:</p>
     <div class="output">
         <?php
-        // TODO: Write your solution here
-        ?>
-    </div>
+    // TODO: Write your solution here
+        require 'inc/navigation.php';
+
+        echo "<p>books and more books</p>";
+
+        require 'inc/navigation.php';
+                ?>
+            </div>
 
     <!-- Exercise 2 -->
     <h2>Exercise 2: Create a Utility Library</h2>
@@ -33,6 +38,17 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once 'inc/utilities.php';
+
+        $shortened = truncate("This Books is written by", 8);
+        $price = formatPrice(19.99);
+        $year = getCurrentYear();
+
+        echo "<p>Truncated: $shortened</p>";
+        echo "<p>Price: $price</p>";
+        echo "<p>Year: $year</p>";
+
+        require_once 'inc/utilities.php';
         ?>
     </div>
 
@@ -43,7 +59,20 @@
     <p class="output-label">Output:</p>
     <div class="output">
         <?php
-        // TODO: Write your solution here
+    // TODO: Write your solution here
+       
+        require_once 'inc/validators.php';
+        require_once 'inc/formatters.php';
+
+        $email = "book@books4u.com";
+        $status = isValidEmail($email) ? "Valid" : "Invalid";
+        $phone = formatPhoneNumber("0874324645");
+
+        echo "<p>Email ($email) is: $status</p>";
+        echo "<p>Formatted Phone: $phone</p>";
+
+        require_once 'inc/validators.php';
+        require_once 'inc/formatters.php';
         ?>
     </div>
 
