@@ -44,19 +44,35 @@ catch (PDOException $e) {
             // TODO: Write your solution here
             // 1. Fetch and display book ID 1
             function updateGame($db, $id, $title, $author, $year, $publisherId, $description) {
+            // 2. Prepare: UPDATE books SET description = :description WHERE id = :id
             $stmt = $db->prepare("
                 UPDATE books
                 SET title = :title,
-                    release_date = :release_date,
-                    genre_id = :genre_id,
+                    author = :author,
+                    year = :year,
+                    publisher_id = :publisher_id,
                     description = :description
                 WHERE id = :id
             ");
+            
+             // 3. Execute with new description + timestamp
+            $params = [
+            'title' => $title,
+            'year' => $year,
+            'publisher_id' => $publisherId,
+            'description' => $description,
+            'id' => $id
+            ];
+                $status = $stmt->execute($params);
 
-            // 2. Prepare: UPDATE books SET description = :description WHERE id = :id
-            // 3. Execute with new description + timestamp
             // 4. Check rowCount()
+            if ($stmt->rowCount() === 0) {
+            throw new Exception("No game found with ID: $id");
+            }
             // 5. Fetch and display updated book
+            
+            }
+
             ?>
         </div>
     </div>

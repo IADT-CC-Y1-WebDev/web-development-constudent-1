@@ -68,7 +68,7 @@ catch (PDOException $e) {
             ];
 
             $status = $stmt->execute($params);
-
+        
             // 3. Check rowCount() === 1
             if (!$status || $stmt->rowCount() !== 1) {
             throw new Exception("Failed to insert book.");
@@ -78,7 +78,7 @@ catch (PDOException $e) {
         }
             // 5. Display success message with the new ID
             $newId = insertBook($db, 'My New Book', 'John Smith',  '2024-12-01', 1, 'A great book!');
-
+        
             ?>
         </div>
     </div>
