@@ -7,8 +7,8 @@ class DB {
 
     private $host = 'mysql-container';
     private $dbname = 'testdb';
-    private $username = '123';
-    private $password = '12345';
+    private $username = 'testuser';
+    private $password = 'mysecret';
     private $charset = 'utf8mb4';
 
     private function __construct() {

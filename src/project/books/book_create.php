@@ -1,84 +1,135 @@
 <?php
 require_once 'php/lib/config.php';
+require_once 'php/inc/formatters.php';
 require_once 'php/classes/Book.php';
+require_once 'php/inc/utilities.php';
 
+$host = 'mysql-container';
+$dbname = 'testdb';
+$username = 'testuser';
+$password = 'mysecret';
+
+$dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
 
 try {
-    $books = Book::findAll();
-} catch (Exception $e) {
-    die("Error: " . $e->getMessage());
-}
 
-catch (PDOException $e) {
-    setFlashMessage('error', 'Error: ' . $e->getMessage());
-    redirect('/index.php');
+    $db = new PDO($dsn, $username, $password);
+} catch (PDOException $e) {
+
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <?php include 'php/inc/head_content.php'; ?>
-        <title>View Book</title>
-    </head>
-    <body>
-        <div class="container">
-            <div class="width-12">
-                <?php require 'php/inc/flash_message.php'; ?>
-            </div>
-            <div class="width-12">
-                <h1>Create Book</h1>
-            </div>
-            <div class="width-12">
-                <form action="Book_store.php" method="POST" enctype="multipart/form-data" novalidate>
-                    <div class="input">
-                        <label class="special" for="title">Title:</label>
-                        <div>
-                            <input type="text" id="title" name="title" value="<?= old('title') ?>" required>
-                            <p><?= error('title') ?></p>
-                        </div>
-                    </div>
-                    <div class="input">
-                        <label class="special" for="published_year">Year:</label>
-                        <div>
-                            <input type="Year" id="Year" name="Year" value="<?= old('Year') ?>" required>
-                            <p><?= error('Year') ?></p>
-                        </div>
-                    </div>
-                    <div class="input">
-                        <label class="special" for="author_id">Author:</label>
-                        <div>
-                            <select id="author_id" name="author_id" required>
-                                <?php foreach ($author as $author) { ?>
-                                    <option value="<?= h($author->id) ?>" <?= chosen('author_id', $author->id) ? "selected" : "" ?>>
-                                        <?= h($author->name) ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                            <p><?= error('author_id') ?></p>
-                        </div>
-                    </div>
-                    <div class="input">
-                        <label class="special" for="description">Description:</label>
-                        <div>
-                            <textarea id="description" name="description" required><?= old('description') ?></textarea>
-                            <p><?= error('description') ?></p>
-                        </div>
-                    </div>
-                    <div class="input">
-                        <label class="special" for="image">Image (required):</label>
-                        <div>
-                            <input type="file" id="image" name="image" accept="image/*" required>
-                            <p><?= error('image') ?></p>
-                        </div>
-                    </div>
-                    <div class="input">
-                        <button  class="button" type="submit">Store Book</button>
-                        <div class="button"><a href="index.php">Cancel</a></div>
-                    </div>
-                </form>
-            </div>
+<head>
+    <title>Add New Book</title>
+</head>
+<body>
+
+    <h1>Add New Book</h1>
+
+
+    <form action="book_store.php" method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="title">Book Title:</label>
+
+            <input type="text" id="title" name="title" value="<?= old('title') ?>">
+
+                <?php if (error('title')): ?>
+                    <p class="error"><?= error('title') ?></p>
+                <?php endif; ?>
+
         </div>
+
+        <div class="form-group">
+            <label for="author">Author:</label>
+
+            <input type="text" id="author" name="author" value="">
+
+            <?php if (error('author')): ?>
+                <p class="error"><?= error('author') ?></p>
+            <?php endif; ?>
+        </div>
+
+        <div class="form-group">
+            <label for="publisher_id">Publisher:</label>
+            <select id="publisher_id" name="publisher_id">
+                <option value="">-- Select Publisher --</option>
+
+                <?php foreach ($publishers as $pub): ?>
+                    <option value="<?= $pub['id'] ?>">
+                        <?= h($pub['name']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
+            <?php if (error('publisher')): ?>
+                <p class="error"><?= error('publisher') ?></p>
+            <?php endif; ?>
+
+        </div>
+
+        <div class="form-group">
+            <label for="year">Year:</label>
+            <input type="text" id="year" name="year" value="">
+
+                  <?php if (error('year')): ?>
+                <p class="error"><?= error('year') ?></p>
+            <?php endif; ?>
+        </div>
+
+        <div class="form-group">
+            <label for="isbn">ISBN:</label>
+            <input type="text" id="isbn" name="isbn" value="">
+
+                <?php if (error('isbn')): ?>
+                <p class="error"><?= error('isbn') ?></p>
+            <?php endif; ?>
+        </div>
+
+        <div class="form-group">
+            <label>Available Formats:</label>
+            <div class="checkbox-group">
+
+                <?php foreach ($formats as $format): ?>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="format_ids[]" value="<?= $format['id'] ?>">
+                        <?= h($format['name']) ?>
+                    </label>
+                <?php endforeach; ?>
+            </div>
+
+                    <?php if (error('checkbox-label')): ?>
+                <p class="error"><?= error('checkbox-label') ?></p>
+            <?php endif; ?>
+        </div>
+
+
+        <div class="form-group">
+            <label for="description">Description:</label>                       
+            <textarea id="description" name="description" rows="5"></textarea>
+
+
+                      <?php if (error('description')): ?>
+                <p class="error"><?= error('description') ?></p>
+            <?php endif; ?>  
+        </div>
+
+        <div class="form-group">
+            <label for="cover">Book Cover Image (max 2MB):</label>
+
+            <input type="file" id="cover" name="cover" accept="image/*">
+
+                         <?php if (error('cover')): ?>
+                <p class="error"><?= error('cover') ?></p>
+            <?php endif; ?>  
+        </div>
+        <div class="form-group">
+            <button type="submit" class="button">Save Book</button>
+        </div>
+    </form>
+    <?php
+    ?>
     </body>
 </html>
