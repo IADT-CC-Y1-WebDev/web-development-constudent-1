@@ -47,19 +47,7 @@ class Book {
     }
 
     public function save() {
-        $sql = "UPDATE books SET 
-                title = :title, 
-                author = :author,
-                publisher_id = :publisher_id,
-                year = :year,
-                isbn = :isbn,
-                description = :description,
-                cover_filename = :cover_filename
-                WHERE id = :id";
-                
-        $stmt = $this->db->prepare($sql);
-        
-        return $stmt->execute([
+        $params = [
             'title'          => $this->title,
             'author'         => $this->author,
             'publisher_id'   => $this->publisher_id,
@@ -67,12 +55,58 @@ class Book {
             'isbn'           => $this->isbn,
             'description'    => $this->description,
             'cover_filename' => $this->cover_filename,
-            'id'             => $this->id
-        ]);
+        ];
+
+        if ($this->id !== null) {
+            $sql = "UPDATE books SET 
+                    title = :title, 
+                    author = :author,
+                    publisher_id = :publisher_id,
+                    year = :year,
+                    isbn = :isbn,
+                    description = :description,
+                    cover_filename = :cover_filename
+                    WHERE id = :id";
+
+            $params['id'] = $id;
+        }
+        else {
+            $sql = "INSERT INTO books(title, author, publisher_id, year, isbn, description, cover_filename) 
+                    VALUES (:title, :author, :publisher_id, :year, :isbn, :description, :cover_filename)";
+        }
+                
+        $stmt = $this->db->prepare($sql);
+        
+        $status = $stmt->execute($params);
+
+        // Check for errors
+        if (!$status) {
+            $error_info = $stmt->errorInfo();
+            $message = sprintf(
+                "SQLSTATE error code: %d; error message: %s",
+                $error_info[0],
+                $error_info[2]
+            );
+            throw new Exception($message);  
+        }
+
+        // Ensure one row affected
+        if ($stmt->rowCount() !== 1) {
+            throw new Exception("Failed to save book.");
+        }
+
+        // Set ID for new records
+        if ($this->id === null) {
+            $this->id = $this->db->lastInsertId();
+        }        
     }
 
     public function delete() {
         $stmt = $this->db->prepare("DELETE FROM books WHERE id = :id");
         return $stmt->execute(['id' => $this->id]);
+    }
+
+    public function setFormats($formatId) {
+
     }
 }

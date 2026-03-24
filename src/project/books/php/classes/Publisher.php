@@ -17,4 +17,12 @@ class Publisher {
         
         return $stmt->fetchAll(PDO::FETCH_CLASS, 'Publisher');
     }
+
+    public static function findById($id) {
+        $db = DB::getInstance()->getConnection();
+        $stmt = $db->prepare("SELECT * FROM books WHERE id = :id LIMIT 1");
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? new Book($row) : null;
+    }
 }

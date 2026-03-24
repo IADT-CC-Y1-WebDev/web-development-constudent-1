@@ -5,13 +5,13 @@ function redirect($url) {
     exit();
 }
 
-
-function setFormData($data) {
-    $_SESSION['form_data'] = $data;
-}
-
-function setFormErrors($errors) {
-    $_SESSION['form_errors'] = $errors;
+function dd($var, $die = false) {
+    echo "<pre>";
+    print_r($var);
+    echo "</pre>";
+    if ($die) {
+        die();
+    }
 }
 
 function h($string) {

@@ -20,6 +20,7 @@ try {
 
     $data = [
         'title' => $_POST['title'] ?? null,
+        'author' => $_POST['author'] ?? null,
         'year' => $_POST['year'] ?? null,
         'publisher_id' => $_POST['publisher_id'] ?? null,
         'description' => $_POST['description'] ?? null,
@@ -28,11 +29,14 @@ try {
         'cover' => $_FILES['cover'] ?? null
     ];
 
+    $year = date("Y");
     $rules = [
-        'title' => 'required|notempty|min:1|max:255',
-        'year' => 'required|notempty',
+        'title' => 'required|notempty|min:3|max:255',
+        'author' => 'required|notempty|min:5|max:255',
+        'year' => 'required|notempty|minvalue:1900|maxvalue:' . $year,
         'publisher_id' => 'required|integer',
         'description' => 'required|notempty|min:10|max:5000',
+        'isbn' => 'required|notempty|min:13|max:13',
         'format_ids' => 'required|array|min:1|max:10',
         'cover' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880'
     ];
@@ -64,7 +68,7 @@ try {
     $book->publisher_id = $data['publisher_id'];
     $book->description = $data['description'];
     $book->isbn = $data['isbn'];
-    $book->image_filename = $imageFilename;
+    $book->cover_filename = $imageFilename;
 
     $book->save();
 

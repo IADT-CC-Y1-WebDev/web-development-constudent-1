@@ -14,7 +14,7 @@ try {
 <html>
 <head>
     <title>Book List</title>
-    <php require 'php/inc/head_content.php'; ?>
+    <?php require 'php/inc/head_content.php'; ?>
 </head>
 <body>
 

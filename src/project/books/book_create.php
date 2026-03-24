@@ -7,7 +7,7 @@ require_once 'php/lib/forms.php';
 require_once 'php/lib/utils.php';
 
 startSession();
-
+// dd($_SESSION);
 try {
     $publishers = Publisher::findAll();
     $formats = Format::findAll();

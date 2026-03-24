@@ -12,7 +12,7 @@ $books = Book::findAll();
 <head>
     <meta charset="UTF-8">
     <title>Book</title>
-    <php require 'php/inc/head_content.php'; ?>
+    <?php require 'php/inc/head_content.php'; ?>
 </head>
 <body>
 

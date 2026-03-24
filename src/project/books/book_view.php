@@ -23,7 +23,7 @@ $formats = Format::findByBook($book->id);
 <html lang="en">
 <head>
     <title>View: <?= h($book->title) ?></title>
-    <php require 'php/inc/head_content.php'; ?>
+    <?php require 'php/inc/head_content.php'; ?>
 </head>
 <body>
 

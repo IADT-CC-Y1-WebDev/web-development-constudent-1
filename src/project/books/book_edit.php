@@ -2,10 +2,7 @@
 require_once 'php/lib/config.php';
 require_once 'php/lib/session.php';
 require_once 'php/lib/utils.php';
-require_once 'php/classes/DB.php'; 
-require_once 'php/classes/Book.php';
-require_once 'php/classes/Author.php';
-require_once 'php/classes/Publisher.php';
+require_once 'php/lib/forms.php';
 
 startSession();
 
@@ -26,9 +23,8 @@ try {
 
     $authors = Author::findAll();
     $publishers = Publisher::findAll();
-    }
-
-    catch (PDOException $e) {
+}
+catch (PDOException $e) {
     setFlashMessage('error', 'Error: ' . $e->getMessage());
     redirect('/index.php');
 }
@@ -39,7 +35,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Edit Book</title>
-    <php require 'php/inc/head_content.php'; ?>
+    <?php require 'php/inc/head_content.php'; ?>
 </head>
 <body>
     <div class="container">
@@ -56,19 +52,19 @@ try {
             <div class="width-8">
                 <div class="input">
                     <label for="title">Title</label>
-                    <input type="text" name="title" id="title" value="<?= h($old['title'] ?? $book->title) ?>">
+                    <input type="text" name="title" id="title" value="<?= h(old('title', $book->title)) ?>">
                 </div>
 
                 <div class="input">
                     <label for="year">Year</label>
-                    <input type="text" name="year" id="year" value="<?= h($old['year'] ?? $book->year) ?>">
+                    <input type="text" name="year" id="year" value="<?= h(old('year', $book->year)) ?>">
                 </div>
 
                 <div class="input">
                     <label for="author_id">Author</label>
                     <select name="author_id" id="author_id">
                         <?php foreach ($authors as $a): ?>
-                            <option value="<?= $a->id ?>" <?= ($old['author_id'] ?? $book->author_id) == $a->id ? 'selected' : '' ?>>
+                            <option value="<?= $a->id ?>" <?= chosen('author_id', $book->author_id, $a->id) ? 'selected' : '' ?>>
                                 <?= h($a->name) ?>
                             </option>
                         <?php endforeach; ?>
@@ -77,7 +73,7 @@ try {
 
                 <div class="input">
                     <label for="description">Description</label>
-                    <textarea name="description" id="description"><?= h($old['description'] ?? $book->description) ?></textarea>
+                    <textarea name="description" id="description"><?= h(old('description', $book->description)) ?></textarea>
                 </div>
             </div>
 
