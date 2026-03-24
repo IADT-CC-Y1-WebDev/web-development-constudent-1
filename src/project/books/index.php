@@ -1,41 +1,60 @@
+<?php
+require_once 'php/lib/config.php';
+require_once 'php/lib/session.php';
+require_once 'php/lib/utils.php';
+require_once 'php/classes/Book.php';
+
+startSession();
+$books = Book::findAll();
+?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Books</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <title>Book</title>
+    <php require 'php/inc/head_content.php'; ?>
 </head>
 <body>
 
 <div class="container">
-    <h1>Book List</h1>
-    <p>
-        <a class="button" href="book_list.php">View All Books</a>
-    </p>
-</div>
+    <?php require 'php/inc/flash_message.php'; ?>
 
-<div class="container">
-    <h1>Books</h1>
-    <p>
-        <a class="book_card" href="book_create.php">Add New Book</a>
-    </p>
+    <div class="width-12">
+        <a href="book_create.php" class="btn-main">Add New Book</a>
+    </div>
 
-    <?php if (empty($books)) { ?>
-        <p>No books found.</p>
-    <?php } else { ?>
+    <div class="width-12 filters">
+        <form class="filter-bar" method="GET" action="index.php">
+            <span>Title: <input type="text" name="title"></span>
+            <span>Publisher: 
+                <select name="publisher_id">
+                    <option value="">All Publishers</option>
+                </select>
+            </span>
+            <button type="submit" class="btn-filter">Apply Filters</button>
+            <a href="index.php" class="btn-link">Clear Filters</a>
+        </form>
+    </div>
 
-        <?php foreach ($books as $book) { ?>
+    <?php foreach ($books as $book): ?>
+        <div class="width-3 ">
             <div class="book_card">
-                <h2><?php echo h($book->title); ?></h2>
-                <p>Published Year: <?php echo h($book->published_year); ?></p>
-
-                <div class="actions">
-                    <a href="book_view.php?id=<?php echo $book->id; ?>">View</a>
-                    <a href="book_edit.php?id=<?php echo $book->id; ?>">Edit</a>
-                    <a href="book_delete.php?id=<?php echo $book->id; ?>">Delete</a>
+                <h2>Title: <?= h($book->title) ?></h2>
+                <p class="release-year">Release Year: <?= h($book->year) ?></p>
+                 <div class="bottom-content">
+                <div class="book-image">
+                    <img src="uploads/<?= h($book->cover_filename) ?>" alt="Cover">
                 </div>
             </div>
-        <?php } ?>
-    <?php } ?>
+
+                <div class="actions">
+                    <a href="book_view.php?id=<?= $book->id ?>">VIEW</a> / 
+                    <a href="book_edit.php?id=<?= $book->id ?>">EDIT</a> / 
+                    <a href="book_delete.php?id=<?= $book->id ?>" onclick="return confirm('Delete?')">DELETE</a>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
 </div>
 
 </body>

@@ -1,109 +1,104 @@
 <?php
 require_once 'php/lib/config.php';
+require_once 'php/lib/session.php';
+require_once 'php/lib/utils.php';
+require_once 'php/classes/DB.php'; 
 require_once 'php/classes/Book.php';
+require_once 'php/classes/Author.php';
+require_once 'php/classes/Publisher.php';
 
 startSession();
-
 
 try {
     if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
         throw new Exception('Invalid request method.');
     }
     if (!array_key_exists('id', $_GET)) {
-        throw new Exception('No Book ID provided.');
+        throw new Exception('No book ID provided.');
     }
+
     $id = $_GET['id'];
 
-    $Book = Book::findById($id);
-    if ($Book === null) {
+    $book = Book::findAll($id);
+    if ($book === null) {
         throw new Exception("Book not found.");
     }
 
-    $BookPlatforms = Platform::findByBook($Book->id);
-    $BookPlatformsIds = [];
-    foreach ($BookPlatforms as $platform) {
-        $BookPlatformsIds[] = $platform->id;
+    $authors = Author::findAll();
+    $publishers = Publisher::findAll();
     }
 
-    $authors = author::findAll();
-    $platforms = Platform::findAll();
-}
-catch (PDOException $e) {
+    catch (PDOException $e) {
     setFlashMessage('error', 'Error: ' . $e->getMessage());
     redirect('/index.php');
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <?php include 'php/inc/head_content.php'; ?>
-        <title>Edit Book</title>
-    </head>
-    <body>
-        <div class="container">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Book</title>
+    <php require 'php/inc/head_content.php'; ?>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
             <div class="width-12">
                 <?php require 'php/inc/flash_message.php'; ?>
-            </div>
-            <div class="width-12">
                 <h1>Edit Book</h1>
             </div>
-            <div class="width-12">
-                <form action="Book_update.php" method="POST" enctype="multipart/form-data">
-                    <div class="input">
-                        <input type="hidden" name="id" value="<?= h($Book->id) ?>">
-                    </div>
-                    <div class="input">
-                        <label class="special" for="title">Title:</label>
-                        <div>
-                            <input type="text" id="title" name="title" value="<?= old('title', $Book->title) ?>" required>
-                            <p><?= error('title') ?></p>
-                        </div>
-                    </div>
-                    <div class="input">
-                        <label class="special" for="published_year">Release Year:</label>
-                        <div>
-                            <input type="date" id="published_year" name="published_year" value="<?= old('published_year', $Book->published_year) ?>" required>
-                            <p><?= error('published_year') ?></p>
-                        </div>
-                    </div>
-                    <div class="input">
-                        <label class="special" for="author_id">author:</label>
-                        <div>
-                            <select id="author_id" name="author_id" required>
-                                <?php foreach ($authors as $author) { ?>
-                                    <option value="<?= h($author->id) ?>" <?= chosen('author_id', $author->id, $Book->author_id) ? "selected" : "" ?>>
-                                        <?= h($author->name) ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                            <p><?= error('author_id') ?></p>
-                        </div>
-                    </div>
-                    <div class="input">
-                        <label class="special" for="description">Description:</label>
-                        <div>
-                            <textarea id="description" name="description" required><?= old('description', $Book->description) ?></textarea>
-                            <p><?= error('description') ?></p>
-                        </div>
-                    </div>
-                    <div><img src="images/<?= $Book->image_filename ?>" /></div>
-                    <div class="input">
-                        <label class="special" for="image">Image (optional):</label>
-                        <div>
-                            <input type="file" id="image" name="image" accept="image/*">
-                            <p><?= error('image') ?></p>
-                        </div>
-                    </div>
-                    <div class="input">
-                        <button class="button" type="submit">Update Book</button>
-                        <div class="button"><a href="index.php">Cancel</a></div>
-                    </div>
-                </form>
-            </div>
         </div>
-    </body>
+
+        <form action="book_update.php" method="POST" enctype="multipart/form-data" class="row" novalidate>
+            <input type="hidden" name="id" value="<?= $book->id ?>">
+
+            <div class="width-8">
+                <div class="input">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" id="title" value="<?= h($old['title'] ?? $book->title) ?>">
+                </div>
+
+                <div class="input">
+                    <label for="year">Year</label>
+                    <input type="text" name="year" id="year" value="<?= h($old['year'] ?? $book->year) ?>">
+                </div>
+
+                <div class="input">
+                    <label for="author_id">Author</label>
+                    <select name="author_id" id="author_id">
+                        <?php foreach ($authors as $a): ?>
+                            <option value="<?= $a->id ?>" <?= ($old['author_id'] ?? $book->author_id) == $a->id ? 'selected' : '' ?>>
+                                <?= h($a->name) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="input">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description"><?= h($old['description'] ?? $book->description) ?></textarea>
+                </div>
+            </div>
+
+            <div class="width-4">
+                <div class="input">
+                    <label>Current Cover</label>
+                    <?php if ($book->cover_filename): ?>
+                        <img src="uploads/<?= h($book->cover_filename) ?>
+                    <?php endif; ?>
+                    <label for="image">Change Cover</label>
+                    <input type="file" name="image" id="image">
+                </div>
+
+                <button type="submit" class="button">Update Book</button>
+                <a href="index.php" class="button">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <?php 
+    clearFormData();
+    clearFormErrors();
+    ?>
+</body>
 </html>
-<?php
-clearFormData();
-clearFormErrors();
-?>

@@ -14,7 +14,7 @@ try {
 <html>
 <head>
     <title>Book List</title>
-    <link rel="stylesheet" href="css/style.css">
+    <php require 'php/inc/head_content.php'; ?>
 </head>
 <body>
 

@@ -50,14 +50,14 @@ body {
 }
 
 .book_card .actions a:hover {
-	color: #88390b;
+	color: #2c22df;
 }
 
 .book_card img {
 	width: 100%;
 	margin-bottom: 10px;
 	object-fit: cover;
-	border: 1px solid #882f13;
+	border: 1px solid #7c75f1;
 	height: 340px;
 }
 
@@ -106,9 +106,9 @@ body {
 	justify-content: space-between;
 }
 
-.button {
+.btn-main {
 	font-size: 13px;
-	background-color: #913a12;
+	background-color: #123991;
 	padding: 5px 10px;
 	color: #ececec;
 	border: 1px solid #4bff3c;
@@ -169,6 +169,7 @@ form {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+	/* align-items: center; */
 }
 
 .input {

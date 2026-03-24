@@ -1,11 +1,16 @@
 <?php
 require_once 'php/lib/config.php';
+require_once 'php/lib/session.php';
+require_once 'php/lib/forms.php';
+require_once 'php/lib/utils.php';
 require_once 'php/classes/Book.php';
+require_once 'php/classes/Publisher.php';
+require_once 'php/classes/Validator.php';
+require_once 'php/classes/ImageUpload.php';
 
 startSession();
 
 try {
-
     $data = [];
     $errors = [];
 
@@ -15,71 +20,72 @@ try {
 
     $data = [
         'title' => $_POST['title'] ?? null,
-        'published_year' => $_POST['published_year'] ?? null,
-        'Author_id' => $_POST['Author_id'] ?? null,
+        'year' => $_POST['year'] ?? null,
+        'publisher_id' => $_POST['publisher_id'] ?? null,
         'description' => $_POST['description'] ?? null,
-        'platform_ids' => $_POST['platform_ids'] ?? [],
-        'image' => $_FILES['image'] ?? null
+        'isbn' => $_POST['isbn'] ?? null,
+        'format_ids' => $_POST['format_ids'] ?? [],
+        'cover' => $_FILES['cover'] ?? null
     ];
 
     $rules = [
         'title' => 'required|notempty|min:1|max:255',
-        'published_year' => 'required|notempty',
-        'Author_id' => 'required|integer',
+        'year' => 'required|notempty',
+        'publisher_id' => 'required|integer',
         'description' => 'required|notempty|min:10|max:5000',
-        'platform_ids' => 'required|array|min:1|max:10',
-        'image' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880'
+        'format_ids' => 'required|array|min:1|max:10',
+        'cover' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880'
     ];
 
     $validator = new Validator($data, $rules);
 
     if ($validator->fails()) {
-       
         foreach ($validator->errors() as $field => $fieldErrors) {
             $errors[$field] = $fieldErrors[0];
         }
-
         throw new Exception('Validation failed.');
     }
 
-    $Author = Author::findById($data['Author_id']);
-    if (!$Author) {
-        throw new Exception('Selected Author does not exist.');
+    $publisher = Publisher::findById($data['publisher_id']);
+    if (!$publisher) {
+        throw new Exception('Selected Publisher does not exist.');
     }
 
     $uploader = new ImageUpload();
-    $imageFilename = $uploader->process($_FILES['image']);
+    $imageFilename = $uploader->process($_FILES['cover']);
 
     if (!$imageFilename) {
         throw new Exception('Failed to process and save the image.');
     }
 
-    $Book = new Book();
-    $Book->title = $data['title'];
-    $Book->published_year = $data['published_year'];
-    $Book->Author_id = $data['Author_id'];
-    $Book->description = $data['description'];
-    $Book->image_filename = $imageFilename;
+    $book = new Book();
+    $book->title = $data['title'];
+    $book->year = $data['year'];
+    $book->publisher_id = $data['publisher_id'];
+    $book->description = $data['description'];
+    $book->isbn = $data['isbn'];
+    $book->image_filename = $imageFilename;
 
-    $Book->save();
+    $book->save();
 
+    if (!empty($data['format_ids'])) {
+        $book->setFormats($data['format_ids']);
+    }
 
     clearFormData();
     clearFormErrors();
 
     setFlashMessage('success', 'Book stored successfully.');
+    redirect('book_view.php?id=' . $book->id);
 
-    redirect('Book_view.php?id=' . $Book->id);
-}
-catch (Exception $e) {
+} catch (Exception $e) {
     if (isset($imageFilename) && $imageFilename) {
         $uploader->deleteImage($imageFilename);
     }
 
-    setFlashMessage('error', 'Error: ' . $e->getMessage());
-
+    setFlashMessage('error', $e->getMessage());
     setFormData($data);
     setFormErrors($errors);
 
-    redirect('Book_create.php');
+    redirect('book_create.php');
 }

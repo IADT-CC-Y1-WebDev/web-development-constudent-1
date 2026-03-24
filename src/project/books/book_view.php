@@ -1,64 +1,75 @@
 <?php
 require_once 'php/lib/config.php';
+require_once 'php/lib/session.php';
 require_once 'php/lib/utils.php';
+require_once 'php/classes/DB.php'; 
+require_once 'php/classes/Book.php';
+require_once 'php/classes/Format.php'; 
 
-if ($_SERVER['REQUEST_METHOD'] !== 'GET' || !array_key_exists('id', $_GET)) {
-    die("<p>Error: No Book ID provided.</p>");
+startSession();
+
+$id = $_GET['id'] ?? null;
+$book = Book::find($id); 
+
+
+if (!$book) {
+    header('Location: index.php');
+    exit;
 }
-$id = $_GET['id'];
 
-try {
-    $Book = Book::findById($id);
-    if ($Book === null) {
-        die("<p>Error: Book not found.</p>");
-    }
-
-    $Author = Author::findById($Book->Author_id);
-    $platforms = Platform::findByBook($Book->id);
-
-    $platformNames = [];
-    foreach ($platforms as $platform) {
-        $platformNames[] = htmlspecialchars($platform->name);
-    }
-} 
-catch (PDOException $e) {
-    setFlashMessage('error', 'Error: ' . $e->getMessage());
-    redirect('/index.php');
-}
+$formats = Format::findByBook($book->id);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <?php include 'php/inc/head_content.php'; ?>
-        <title>View Book</title>
-    </head>
-    <body>
-        <div class="container">
-            <div class="width-12 header">
-                <?php require 'php/inc/flash_message.php'; ?>
+<head>
+    <title>View: <?= h($book->title) ?></title>
+    <php require 'php/inc/head_content.php'; ?>
+</head>
+<body>
+
+<div class="container">
+    <?php require 'php/inc/flash_message.php'; ?>
+
+    <div class="view-card">
+        <div class="view-sidebar">
+            <div class="view-image">
+                <img src="uploads/<?= h($book->cover_filename) ?>" alt="Cover Image">
+            </div>
+            
+            <div class="view-actions">
+                <a href="book_edit.php?id=<?= $book->id ?>" class="link-edit">EDIT</a>
+                <span class="separator">/</span>
+                <a href="book_delete.php?id=<?= $book->id ?>" class="link-delete" onclick="return confirm('Delete this book?')">DELETE</a>
+                <span class="separator">/</span>
+                <a href="index.php" class="link-back">BACK</a>
             </div>
         </div>
-        <div class="container">
-            <div class="width-12">
-                <div class="hCard">
-                    <div class="bottom-content">
-                        <img src="images/<?= htmlspecialchars($Book->image_filename) ?>" />
 
-                        <div class="actions">
-                            <a href="Book_edit.php?id=<?= h($Book->id) ?>">Edit</a> /
-                            <a href="Book_delete.php?id=<?= h($Book->id) ?>">Delete</a> /
-                            <a href="index.php">Back</a>
-                        </div>
-                    </div>
+        <div class="view-details">
+            <h1>Title: <?= h($book->title) ?></h1>
+            <p class="detail-item"><strong>Author:</strong> <?= h($book->author) ?></p>
+            <p class="detail-item"><strong>Release Year:</strong> <?= h($book->year) ?></p>
+            <p class="detail-item"><strong>ISBN:</strong> <?= h($book->isbn) ?></p>
+            
+            <p class="detail-item"><strong>Available Formats:</strong> 
+                <span class="format-list">
+                    <?php 
+                    if (!empty($formats)) {
+                        $names = array_map(fn($f) => $f->name, $formats);
+                        echo h(implode(', ', $names)); 
+                    } else {
+                        echo "None specified";
+                    }
+                    ?>
+                </span>
+            </p>
 
-                    <div class="bottom-content">
-                        <h2><?= htmlspecialchars($Book->title) ?></h2>
-                        <p>Release Year: <?= htmlspecialchars($Book->published_year) ?></p>
-                        <p>Author: <?= htmlspecialchars($Author->name) ?></p>
-                        <p>Description:<br /><?= nl2br(htmlspecialchars($Book->description)) ?></p>
-                    </div>
-                </div>
+            <div class="detail-description">
+                <strong>Description:</strong>
+                <p><?= nl2br(h($book->description)) ?></p>
             </div>
         </div>
-    </body>
+    </div>
+</div>
+</body>
 </html>
