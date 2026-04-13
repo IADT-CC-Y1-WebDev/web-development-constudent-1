@@ -30,7 +30,8 @@ $formats = Format::findByBook($book->id);
 <div class="container">
     <?php require 'php/inc/flash_message.php'; ?>
 
-    <div class="view-card">
+    <div class="hCard">
+        
         <div class="view-sidebar">
             <div class="view-image">
                 <img src="uploads/<?= h($book->cover_filename) ?>" alt="Cover Image">
@@ -46,22 +47,21 @@ $formats = Format::findByBook($book->id);
         </div>
 
         <div class="view-details">
-            <h1>Title: <?= h($book->title) ?></h1>
+            <h2>Title: <?= h($book->title) ?></h2>
+            
             <p class="detail-item"><strong>Author:</strong> <?= h($book->author) ?></p>
             <p class="detail-item"><strong>Release Year:</strong> <?= h($book->year) ?></p>
             <p class="detail-item"><strong>ISBN:</strong> <?= h($book->isbn) ?></p>
             
             <p class="detail-item"><strong>Available Formats:</strong> 
-                <span class="format-list">
-                    <?php 
-                    if (!empty($formats)) {
-                        $names = array_map(fn($f) => $f->name, $formats);
-                        echo h(implode(', ', $names)); 
-                    } else {
-                        echo "None specified";
-                    }
-                    ?>
-                </span>
+                <?php 
+                if (!empty($formats)) {
+                    $names = array_map(fn($f) => $f->name, $formats);
+                    echo h(implode(', ', $names)); 
+                } else {
+                    echo "None specified";
+                }
+                ?>
             </p>
 
             <div class="detail-description">
