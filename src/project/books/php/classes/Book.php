@@ -68,15 +68,14 @@ class Book {
                     cover_filename = :cover_filename
                     WHERE id = :id";
 
-            $params['id'] = $id;
-        }
+            $params['id'] = $this->id; 
+        } 
         else {
             $sql = "INSERT INTO books(title, author, publisher_id, year, isbn, description, cover_filename) 
                     VALUES (:title, :author, :publisher_id, :year, :isbn, :description, :cover_filename)";
         }
                 
         $stmt = $this->db->prepare($sql);
-        
         $status = $stmt->execute($params);
 
         // Check for errors
