@@ -23,7 +23,7 @@ try {
         throw new Exception('Invalid Book ID.');
     }
 
-    $Book = Book::findById($data['id']);
+    $Book = Book::find($data['id']);
     
     if (!$Book) {
         throw new Exception('Book not found.');

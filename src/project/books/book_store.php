@@ -1,95 +1,72 @@
 <?php
 require_once 'php/lib/config.php';
 require_once 'php/lib/session.php';
-require_once 'php/lib/forms.php';
 require_once 'php/lib/utils.php';
-require_once 'php/classes/Book.php';
-require_once 'php/classes/Publisher.php';
-require_once 'php/classes/Validator.php';
-require_once 'php/classes/ImageUpload.php';
+require_once 'php/lib/forms.php';
 
 startSession();
 
 try {
-    $data = [];
-    $errors = [];
-
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new Exception('Invalid request method.');
     }
 
     $data = [
-        'title' => $_POST['title'] ?? null,
-        'author' => $_POST['author'] ?? null,
-        'year' => $_POST['year'] ?? null,
+        'title'        => $_POST['title'] ?? null,
+        'author'       => $_POST['author'] ?? null,
         'publisher_id' => $_POST['publisher_id'] ?? null,
-        'description' => $_POST['description'] ?? null,
-        'isbn' => $_POST['isbn'] ?? null,
-        'format_ids' => $_POST['format_ids'] ?? [],
-        'cover' => $_FILES['cover'] ?? null
+        'year'         => $_POST['year'] ?? null,
+        'isbn'         => $_POST['isbn'] ?? null,
+        'description'  => $_POST['description'] ?? null
     ];
 
-    $year = date("Y");
     $rules = [
-        'title' => 'required|notempty|min:3|max:255',
-        'author' => 'required|notempty|min:5|max:255',
-        'year' => 'required|notempty|minvalue:1900|maxvalue:' . $year,
+        'title'        => 'required|notempty',
+        'author'       => 'required|notempty',
         'publisher_id' => 'required|integer',
-        'description' => 'required|notempty|min:10|max:5000',
-        'isbn' => 'required|notempty|min:13|max:13',
-        'format_ids' => 'required|array|min:1|max:10',
-        'cover' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880'
+        'year'         => 'required|integer',
+        'isbn'         => 'required|notempty',
+        'description'  => 'required|notempty'
     ];
 
     $validator = new Validator($data, $rules);
 
     if ($validator->fails()) {
-        foreach ($validator->errors() as $field => $fieldErrors) {
-            $errors[$field] = $fieldErrors[0];
-        }
+        setFormErrors($validator->errors());
+        setFormData($data);
         throw new Exception('Validation failed.');
     }
 
-    $publisher = Publisher::findById($data['publisher_id']);
-    if (!$publisher) {
-        throw new Exception('Selected Publisher does not exist.');
+    $Book = new Book();
+    $Book->title        = $data['title'];
+    $Book->author       = $data['author'];
+    $Book->publisher_id = $data['publisher_id'];
+    $Book->year         = $data['year'];
+    $Book->isbn         = $data['isbn'];
+    $Book->description  = $data['description'];
+
+    if (isset($_FILES['cover']) && $_FILES['cover']['error'] === UPLOAD_ERR_OK) {
+        $uploader = new ImageUpload();
+        $filename = $uploader->process($_FILES['cover']);
+        if ($filename) {
+            $Book->cover_filename = $filename;
+        }
     }
 
-    $uploader = new ImageUpload();
-    $imageFilename = $uploader->process($_FILES['cover']);
+    $Book->save();
 
-    if (!$imageFilename) {
-        throw new Exception('Failed to process and save the image.');
-    }
-
-    $book = new Book();
-    $book->title = $data['title'];
-    $book->year = $data['year'];
-    $book->publisher_id = $data['publisher_id'];
-    $book->description = $data['description'];
-    $book->isbn = $data['isbn'];
-    $book->cover_filename = $imageFilename;
-
-    $book->save();
-
-    if (!empty($data['format_ids'])) {
-        $book->setFormats($data['format_ids']);
+    if (isset($_POST['format_ids']) && is_array($_POST['format_ids'])) {
+        foreach ($_POST['format_ids'] as $formatId) {
+            $Book->setFormats($formatId);
+        }
     }
 
     clearFormData();
     clearFormErrors();
-
-    setFlashMessage('success', 'Book stored successfully.');
-    redirect('book_view.php?id=' . $book->id);
+    setFlashMessage('success', 'New book saved successfully.');
+    redirect('index.php');
 
 } catch (Exception $e) {
-    if (isset($imageFilename) && $imageFilename) {
-        $uploader->deleteImage($imageFilename);
-    }
-
-    setFlashMessage('error', $e->getMessage());
-    setFormData($data);
-    setFormErrors($errors);
-
+    setFlashMessage('error', 'Error: ' . $e->getMessage());
     redirect('book_create.php');
 }

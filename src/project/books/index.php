@@ -19,7 +19,9 @@ $books = Book::findAll();
 <div class="container">
     <?php require 'php/inc/flash_message.php'; ?>
 
-    <div class="width-12">
+    <div class="width-9">
+        </div>
+    <div class="width-3" style="display: flex; justify-content: flex-end; align-items: center;">
         <a href="book_create.php" class="btn-main">Add New Book</a>
     </div>
 
@@ -37,15 +39,14 @@ $books = Book::findAll();
     </div>
 
     <?php foreach ($books as $book): ?>
-        <div class="width-3 ">
+        <div class="width-3">
             <div class="book_card">
                 <h2>Title: <?= h($book->title) ?></h2>
                 <p class="release-year">Release Year: <?= h($book->year) ?></p>
-                 <div class="bottom-content">
+                
                 <div class="book-image">
                     <img src="uploads/<?= h($book->cover_filename) ?>" alt="Cover">
                 </div>
-            </div>
 
                 <div class="actions">
                     <a href="book_view.php?id=<?= $book->id ?>">VIEW</a> / 

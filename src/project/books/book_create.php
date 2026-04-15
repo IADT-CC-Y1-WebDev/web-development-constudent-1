@@ -7,7 +7,7 @@ require_once 'php/lib/forms.php';
 require_once 'php/lib/utils.php';
 
 startSession();
-// dd($_SESSION);
+
 try {
     $publishers = Publisher::findAll();
     $formats = Format::findAll();
@@ -82,17 +82,19 @@ catch (PDOException $e) {
                     </div>
 
                     <div class="input">
-                        <label class="special">Available Formats:</label>
+                        <label class="special">Formats:</label>
                         <div class="checkbox-group">
                             <?php foreach ($formats as $format) { ?>
-                                <div>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 5px;">
                                     <input type="checkbox" 
-                                        id="format_<?= h($format->id) ?>" 
-                                        name="format_ids[]" 
-                                        value="<?= h($format->id) ?>"
-                                        <?= chosen('format_ids', $format->id) ? "checked" : "" ?>
-                                        >
-                                    <label for="format_<?= h($format->id) ?>"><?= h($format->name) ?></label>
+                                           id="format_<?= h($format->id) ?>" 
+                                           name="format_ids[]" 
+                                           value="<?= h($format->id) ?>"
+                                           <?= chosen('format_ids', $format->id) ? "checked" : "" ?>
+                                           style="width: auto; margin: 0;">
+                                    <label for="format_<?= h($format->id) ?>" style="font-weight: 400; width: auto; display: inline-block;">
+                                        <?= h($format->name) ?>
+                                    </label>
                                 </div>
                             <?php } ?>
                         </div>
@@ -117,7 +119,7 @@ catch (PDOException $e) {
 
                     <div class="input">
                         <button type="submit" class="button">Save Book</button>
-                        <div class="button"><a href="index.php">Cancel</a></div>
+                        <div class="button"><a href="index.php" style="color: inherit; text-decoration: none;">Cancel</a></div>
                     </div>
                 </form>
             </div>
