@@ -41,40 +41,28 @@ catch (PDOException $e) {
         <h3>Your Solution:</h3>
         <div class="output">
             <?php
-            // TODO: Write your solution here
-            // 1. INSERT a temporary book
-            function deleteGame($db, $id, $deleteStmt, $stmt) {
-            $stmt = $db->prepare("DELETE FROM books WHERE id = :id");
-                $stmt->execute(['id' => 15]);
+// 1. Define the delete function
+    function deleteBook($db, $id) {
+        $stmt = $db->prepare("DELETE FROM books WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+    return $stmt->rowCount();
+}
 
-                $deleted = $stmt->rowCount();
-            }
-            if ($deleted > 0) {
-                 echo "Deleted $deleted record(s)";
-            } else {
-                echo "No records found to delete";
-            }
+// 2. Execute the deletion (Use a real ID, e.g., 15)
+    try {
+        $idToDelete = 15;
+        $deleted = deleteBook($db, $idToDelete);
 
-            // 2. Get the new ID
-            if ($stmt->rowCount() === 0) {
-                echo "No game found with that ID";
-            } else {
-                echo "Game deleted";
-            }
-            // 3. Display "Created book with ID: X"
-            // 4. DELETE FROM books WHERE id = :id
-            try {
-            $deleteStmt = $db->prepare("DELETE FROM books WHERE id = :id");
-            $deleteStmt->execute(['id' => $id]);
-                
-            
-        
-            // 5. Check rowCount()
-            return $deleteStmt->rowCount() === 1;
-            // 6. Try to fetch the book again to verify deletion
-            } catch (PDOException $e) {
-                echo "Cannot delete: " . $e->getMessage();
-                }
+    // 3. Check the result and display message
+    if ($deleted > 0) {
+        echo "Deleted $deleted record(s).";
+    } else {
+        echo "No records found to delete with ID: " . htmlspecialchars($idToDelete);
+    }
+    } catch (Exception $e) {
+        echo "Cannot delete: " . htmlspecialchars($e->getMessage());
+    }
+
             ?>
         </div>
     </div>

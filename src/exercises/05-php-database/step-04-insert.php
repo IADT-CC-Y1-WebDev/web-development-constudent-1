@@ -53,36 +53,38 @@ catch (PDOException $e) {
             // TODO: Write your solution here
             // 1. Prepare INSERT INTO books (title, author, ...) VALUES (:title, :author, ...)
             function insertBook($db, $title, $author, $publisherid, $year, $description) {
-            $stmt = $db->prepare("
-            INSERT INTO books (title, author, year, publisher_id, description)
-            VALUES (:title, author, :year, :publisher_id, :description)
-        ");
+                $stmt = $db->prepare("
+                    INSERT INTO books (title, author, year, publisher_id, description)
+                    VALUES (:title, :author, :year, :publisher_id, :description)
+                ");
 
-            // 2. Execute with the book data
-             $params = [
-            'title' => $title,
-            'author' => $author,
-            'publisher_id' => $publisherid,
-            'year' => $year,
-            'description' => $description
-            ];
+                // 2. Execute with the book data
+                $params = [
+                    'title' => $title,
+                    'author' => $author,
+                    'publisher_id' => $publisherid,
+                    'year' => $year,
+                    'description' => $description
+                ];
 
-               $status = $stmt->execute($params);
+                $status = $stmt->execute($params);
         
-            // 3. Check rowCount() === 1
-            if (!$status || $stmt->rowCount() !== 1) {
-            throw new Exception("Failed to insert book.");
+                // 3. Check rowCount() === 1
+                if (!$status || $stmt->rowCount() !== 1) {
+                    throw new Exception("Failed to insert book.");
                 }
 
-                
-             }
-            // 4. Get lastInsertId()
-            return $db->lastInsertId();
+                // 4. Get lastInsertId()
+                return $db->lastInsertId();
+            }
             
-        
             // 5. Display success message with the new ID
-            $newId = insertBook($db, 'My Favorite Book', 'Conor Vaughan',  '2024', 1, 'A book I created for learning PDO');
-        
+            try {
+                $newId = insertBook($db, 'My Favorite Book', 'Conor Vaughan', 1, '2024', 'A book I created for learning PDO');
+                echo "<p class='success'>Successfully inserted book with ID: " . htmlspecialchars($newId) . "</p>";
+            } catch (Exception $e) {
+                echo "<p class='error'>Error: " . htmlspecialchars($e->getMessage()) . "</p>";
+            }
             ?>
         </div>
     </div>

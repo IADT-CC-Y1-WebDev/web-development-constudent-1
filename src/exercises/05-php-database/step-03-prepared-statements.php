@@ -95,27 +95,26 @@ catch (PDOException $e) {
 
         <h3>Your Solution:</h3>
         <div class="output">
-            <?php
+            <?php   
             // TODO: Write your solution here
             // 1. Prepare: SELECT * FROM books WHERE author LIKE :search
+            $stmt = $db->prepare("SELECT * FROM books WHERE author LIKE :search");
             // 2. Execute with ['search' => '%George%']
+            $stmt->execute(['search' => '%George%']);
             // 3. Loop through and display results
-            // Include wildcards in the value
-            $search = 'Rob';
-            $stmt = $db->prepare("SELECT * FROM books WHERE author LIKE :search ORDER BY author");
-            $stmt->execute(['search' => "%$search%"]);
-
             $books = $stmt->fetchAll();
 
             if (count($books) > 0) {
                 echo "<ul>";
                 foreach ($books as $book) {
-                    echo "<li>" . htmlspecialchars($book['title']) . " (" . $book['year'] . ")</li>";
+                    echo "<li>" . htmlspecialchars($book['title']) . " by " . htmlspecialchars($book['author']) . "</li>";
                 }
                 echo "</ul>";
             } else {
-                echo "<p>No books found matching criteria.</p>";
-            }            ?>
+                echo "<p>No books found.</p>";
+            }
+            ?>
+            
         </div>
     </div>
 </body>

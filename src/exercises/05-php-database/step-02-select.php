@@ -47,37 +47,32 @@ catch (PDOException $e) {
         <h2>Your Solution</h2>
         <div class="output">
             <?php
-            // TODO: Write your solution here
-            // 1. Execute SELECT * FROM books ORDER BY title
-            $stmt = $db->query("SELECT * FROM books ORDER BY title");
-            // 2. Fetch all results
+            // 1. Execute query
+            $stmt = $db->query("SELECT id, title, year, description FROM books ORDER BY title");
             $books = $stmt->fetchAll();
-            // 3. Display count
+
+            // 2. Display count
             echo "<p>Found " . count($books) . " books</p>";
-            // 4. Create HTML table with the results
-           
-            $stmt = $db->query("SELECT id, title, release_date, description FROM games ORDER BY title");
-            $books = $stmt->fetchAll();
-<table class="data-table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Release Year</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($books as $book): ?>
-        <tr>
-            <td><?= $book['id'] ?></td>
-            <td><?= htmlspecialchars($book['title']) ?></td>
-            <td><?= $book['release_year'] ?></td>
-            <td><?= htmlspecialchars(substr($book['description'], 0, 50)) ?>...</td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+            ?> <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Release Year</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($books as $book): ?>
+                    <tr>
+                        <td><?= $book['id'] ?></td>
+                        <td><?= htmlspecialchars($book['title']) ?></td>
+                        <td><?= htmlspecialchars($book['year']) ?></td>
+                        <td><?= htmlspecialchars(substr($book['description'], 0, 50)) ?>...</td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </body>

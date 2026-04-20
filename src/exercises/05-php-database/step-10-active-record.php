@@ -1,6 +1,6 @@
-<?php
-require_once __DIR__ . '/lib/config.php';
-?>
+    <?php
+    require_once __DIR__ . '/lib/config.php';
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,42 +26,60 @@ require_once __DIR__ . '/lib/config.php';
         </ol>
 
         <h3>Test CREATE (new book):</h3>
-        <div class="output">
-            <?php
-                $book = new Book();
-                $book->title = "Test Book ";
-                $book->author = "Test Author";
-                $book->isbn = 123456789;
-                $book->year = 2024;
-                $book->description = "book description";
+<div class="output">
+    <?php
+        $book = new Book();
+        $book->title = "Test Book " . time();
+        $book->author = "Test Author";
+        $book->isbn = 123456789;
+        $book->year = 2024;
+        $book->description = "book description";
 
-                $book->save();
-                echo "Created book with ID: " . $book->id;
+        if (method_exists($book, 'save')) {
+            $book->save();
+            $createdId = $book->id;
+            echo "Created book with ID: " . ($createdId ? $createdId : "FAILED - No ID generated");
+        } else {
+            echo "Error: save() method does not exist in Book class.";
+        }
+    ?>
+</div>
+
+<h3>Test UPDATE:</h3>
+<div class="output">
+    <?php
+        if (isset($createdId) && $createdId) {
+            $book = Book::findById($createdId);
             
-        </div>
-
-        <h3>Test READ (verify creation):</h3>
-        <div class="output">
-           
-                $found = Book::findById($createdId);
-                
-        </div>
-
-        <h3>Test UPDATE:</h3>
-        <div class="output">
-        $book = Book::findById($createdId);
-        $book->title = "Updated Title " . time();
-        $book->save();
-                        
-            ?>
-        </div>
+            if ($book !== null) {
+                $book->title = "Updated Title " . time();
+                $book->save();
+                echo "Updated title to: " . $book->title;
+            } else {
+                echo "Error: Book with ID $createdId was not found in the database. Check if save() actually inserted data.";
+            }
+        } else {
+            echo "Error: \$createdId is missing or invalid.";
+        }
+    ?>
+</div>
 
         <h3>Test DELETE:</h3>
         <div class="output">
             <?php
-        $book = Book::findById($createdId);            
-        $check = Book::findById($createdId);
-                               
+                $book = Book::findById($createdId);
+                
+                if ($book) {
+                    $book->delete();
+                    echo "Book deleted.<br>";
+                }
+                
+                $check = Book::findById($createdId);
+                if ($check === null) {
+                    echo "<p class='success'>Correctly deleted from database.</p>";
+                } else {
+                    echo "<p class='warning'>Delete failed: Book still exists.</p>";
+                }
             ?>
         </div>
 

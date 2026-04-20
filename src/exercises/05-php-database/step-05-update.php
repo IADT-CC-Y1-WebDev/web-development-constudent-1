@@ -42,40 +42,57 @@ catch (PDOException $e) {
         <div class="output">
             <?php
             // TODO: Write your solution here
-            // 1. Fetch and display book ID 1
-            function updateGame($db, $id, $title, $author, $year, $publisherId, $description) {
-            // 2. Prepare: UPDATE books SET description = :description WHERE id = :id
-            $stmt = $db->prepare("
-                UPDATE books
-                SET title = :title,
-                    author = :author,
-                    year = :year,
-                    publisher_id = :publisher_id,
-                    description = :description
-                WHERE id = :id
-            ");
-            
-             // 3. Execute with new description + timestamp
-            $params = [
-            'title' => $title,
-            'year' => $year,
-            'publisher_id' => $publisherId,
-            'description' => $description,
-            'id' => $id
-            ];
+           // 1. Fetch and display book ID 1
+            $stmt = $db->prepare("SELECT * FROM books WHERE id = :id");
+            $stmt->execute(['id' => 1]);
+            $book = $stmt->fetch();
+            echo "Current Book: " . htmlspecialchars($book['title']);
+
+            function updateBook($db, $id, $title, $author, $year, $publisherId, $description) {
+                // 2. Prepare: UPDATE books
+                $stmt = $db->prepare("
+                    UPDATE books
+                    SET title = :title,
+                        author = :author,
+                        year = :year,
+                        publisher_id = :publisher_id,
+                        description = :description
+                    WHERE id = :id
+                ");
+                
+                // 3. Execute with data
+                $params = [
+                    'title'        => $title,
+                    'author'       => $author,
+                    'year'         => $year,
+                    'publisher_id' => $publisherId,
+                    'description'  => $description,
+                    'id'           => $id
+                ];
                 $status = $stmt->execute($params);
 
                 if (!$status) {
-        $error_info = $stmt->errorInfo();
-        throw new Exception("Update failed: " . $error_info[2]);
-    }
-            // 4. Check rowCount()
-            if ($stmt->rowCount() === 0) {
-            throw new Exception("No book found with ID: $id");
+                    $error_info = $stmt->errorInfo();
+                    throw new Exception("Update failed: " . $error_info[2]);
+                }
+
+                // 4. Check rowCount()
+                if ($stmt->rowCount() === 0) {
+                    throw new Exception("No book found with ID: $id");
+                }
+
+                return true;
             }
+
+            $newDescription = $book['description'] . " (Updated: " . date('H:i:s') . ")";
+            updateBook($db, 1, $book['title'], $book['author'], $book['year'], $book['publisher_id'], $newDescription);
+
             // 5. Fetch and display updated book
-            return true;
-            }
+            $stmt = $db->prepare("SELECT * FROM books WHERE id = :id");
+            $stmt->execute(['id' => 1]);
+            $updatedBook = $stmt->fetch();
+            echo "<p>Updated successfully</p>";
+            echo "New Description: " . htmlspecialchars($updatedBook['description']);
 
             ?>
         </div>
