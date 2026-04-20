@@ -31,10 +31,27 @@ require_once __DIR__ . '/lib/config.php';
             <?php
             // TODO: Write your solution here
             // 1. Get connection: $db = DB::getInstance()->getConnection();
+            $db = DB::getInstance()->getConnection();
+            $instance1 = DB::getInstance();
+            $instance2 = DB::getInstance();
             // 2. Execute: SELECT COUNT(*) as total FROM books
+            $stmt = $db->prepare("SELECT * FROM books WHERE id = :id");
+            $stmt->execute(['id' => 1]);
+            $game = $stmt->fetch();
+
+            echo $game['title'];
             // 3. Display the count
             // 4. Get DB::getInstance() twice and compare with ===
+            $db1 = $instance1->getConnection();
+            $db2 = $instance2->getConnection();
             // 5. Display whether they are the same instance
+            if ($instance1 === $instance2) {
+            echo "  Same instance! Singleton works.";
+            }
+
+            if ($db1 === $db2) {
+                echo "  Same PDO connection!";
+            }
             ?>
         </div>
     </div>

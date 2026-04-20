@@ -28,94 +28,40 @@ require_once __DIR__ . '/lib/config.php';
         <h3>Test CREATE (new book):</h3>
         <div class="output">
             <?php
-            try {
                 $book = new Book();
-                $book->title = "Test Book " . time();
+                $book->title = "Test Book ";
                 $book->author = "Test Author";
-                $book->publisher_id = 1;
+                $book->isbn = 123456789;
                 $book->year = 2024;
-                $book->description = "Created via Active Record pattern";
+                $book->description = "book description";
 
                 $book->save();
-
-                if ($book->id) {
-                    echo "<p class='success'>Created book with ID: {$book->id}</p>";
-                } else {
-                    echo "<p class='warning'>save() didn't set the ID after INSERT</p>";
-                }
-
-                $createdId = $book->id;
-            } catch (Exception $e) {
-                echo "<p class='warning'>save() not implemented: " . $e->getMessage() . "</p>";
-                $createdId = null;
-            }
-            ?>
+                echo "Created book with ID: " . $book->id;
+            
         </div>
 
         <h3>Test READ (verify creation):</h3>
         <div class="output">
-            <?php
-            if ($createdId) {
+           
                 $found = Book::findById($createdId);
-                if ($found) {
-                    echo "<p class='success'>Found created book: " . htmlspecialchars($found->title) . "</p>";
-                } else {
-                    echo "<p class='warning'>Could not find the created book</p>";
-                }
-            } else {
-                echo "<p class='info'>Skipped - no book was created</p>";
-            }
-            ?>
+                
         </div>
 
         <h3>Test UPDATE:</h3>
         <div class="output">
-            <?php
-            if ($createdId) {
-                try {
-                    $book = Book::findById($createdId);
-                    if ($book) {
-                        $book->title = "Updated Title " . time();
-                        $book->save();
-                        echo "<p class='success'>Updated book title to: " . htmlspecialchars($book->title) . "</p>";
-                    }
-                } catch (Exception $e) {
-                    echo "<p class='warning'>UPDATE failed: " . $e->getMessage() . "</p>";
-                }
-            } else {
-                echo "<p class='info'>Skipped - no book to update</p>";
-            }
+        $book = Book::findById($createdId);
+        $book->title = "Updated Title " . time();
+        $book->save();
+                        
             ?>
         </div>
 
         <h3>Test DELETE:</h3>
         <div class="output">
             <?php
-            if ($createdId) {
-                try {
-                    $book = Book::findById($createdId);
-                    if ($book) {
-                        $result = $book->delete();
-                        if ($result) {
-                            echo "<p class='success'>Deleted book ID: {$createdId}</p>";
-
-                            // Verify deletion
-                            $check = Book::findById($createdId);
-                            if ($check === null) {
-                                echo "<p class='success'>Verified: Book no longer exists</p>";
-                            } else {
-                                echo "<p class='warning'>Book still exists after delete</p>";
-                            }
-                        } else {
-                            echo "<p class='warning'>delete() returned false</p>";
-                        }
-                    }
-                } catch (Exception $e) {
-                    echo "<p class='warning'>DELETE failed: " . $e->getMessage() . "</p>";
-                }
-            } else {
-                echo "<p class='info'>Skipped - no book to delete</p>";
-            }
+        $book = Book::findById($createdId);            
+        $check = Book::findById($createdId);
+                               
             ?>
         </div>
 

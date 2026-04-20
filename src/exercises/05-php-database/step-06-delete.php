@@ -43,11 +43,38 @@ catch (PDOException $e) {
             <?php
             // TODO: Write your solution here
             // 1. INSERT a temporary book
+            function deleteGame($db, $id, $deleteStmt, $stmt) {
+            $stmt = $db->prepare("DELETE FROM books WHERE id = :id");
+                $stmt->execute(['id' => 15]);
+
+                $deleted = $stmt->rowCount();
+            }
+            if ($deleted > 0) {
+                 echo "Deleted $deleted record(s)";
+            } else {
+                echo "No records found to delete";
+            }
+
             // 2. Get the new ID
+            if ($stmt->rowCount() === 0) {
+                echo "No game found with that ID";
+            } else {
+                echo "Game deleted";
+            }
             // 3. Display "Created book with ID: X"
             // 4. DELETE FROM books WHERE id = :id
+            try {
+            $deleteStmt = $db->prepare("DELETE FROM books WHERE id = :id");
+            $deleteStmt->execute(['id' => $id]);
+                
+            
+        
             // 5. Check rowCount()
+            return $deleteStmt->rowCount() === 1;
             // 6. Try to fetch the book again to verify deletion
+            } catch (PDOException $e) {
+                echo "Cannot delete: " . $e->getMessage();
+                }
             ?>
         </div>
     </div>

@@ -65,12 +65,16 @@ catch (PDOException $e) {
             ];
                 $status = $stmt->execute($params);
 
+                if (!$status) {
+        $error_info = $stmt->errorInfo();
+        throw new Exception("Update failed: " . $error_info[2]);
+    }
             // 4. Check rowCount()
             if ($stmt->rowCount() === 0) {
-            throw new Exception("No game found with ID: $id");
+            throw new Exception("No book found with ID: $id");
             }
             // 5. Fetch and display updated book
-            
+            return true;
             }
 
             ?>

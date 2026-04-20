@@ -35,8 +35,11 @@ require_once __DIR__ . '/lib/config.php';
             <?php
             // Test 1: Create empty Book
             $book = new Book();
-            echo "<h4>Test 1: Empty Book</h4>";
-            echo "<p>Title: " . ($book->title ?? 'null') . "</p>";
+            $book->title = "New Book";
+            $book->release_year = "2026-06-01";
+            $book->author_id = 1;
+
+            echo $book->title;  
 
             // Test 2: Create Book from data
             $data = [
@@ -44,24 +47,21 @@ require_once __DIR__ . '/lib/config.php';
                 'title' => 'Test Book',
                 'author' => 'Test Author',
                 'publisher_id' => 1,
-                'year' => 2024,
-                'isbn' => '123-456-789',
-                'description' => 'A test book',
+                'year' => 2026,
+                'isbn' => '123456789',
+                'description' => 'test book',
                 'cover_filename' => 'test.jpg'
             ];
-            $book2 = new Book($data);
-            echo "<h4>Test 2: Book from Data</h4>";
-            echo "<p>Title: " . htmlspecialchars($book2->title ?? 'NOT IMPLEMENTED') . "</p>";
-            echo "<p>Author: " . htmlspecialchars($book2->author ?? 'NOT IMPLEMENTED') . "</p>";
+            
+            $book = new Book($data);
 
             // Test 3: toArray
-            echo "<h4>Test 3: toArray()</h4>";
-            $array = $book2->toArray();
-            if (empty($array)) {
-                echo "<p class='warning'>toArray() not implemented yet</p>";
-            } else {
-                echo "<pre>" . print_r($array, true) . "</pre>";
-            }
+            $array = $book->toArray();
+            print_r($array);
+
+            $json = json_encode($book->toArray(), JSON_PRETTY_PRINT);
+            echo $json;
+        
             ?>
         </div>
     </div>
