@@ -49,22 +49,17 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
-        function calculateRectangleArea($length, $width) {
-            return $length * $width;
-        }
+        function calculateRectangleArea($length, $width = null) {
+    if ($width === null) {
+        
+        return $length * $length;
+    }
+    return $length * $width;
+}
 
-        function calculatePerimeter($length, $width) {
-            return 2 * ($length + $width);
-        }
 
-        $length = 12;
-        $width = 6;
-
-        $area = calculateRectangleArea($length, $width);
-        $perimeter = calculatePerimeter($length, $width);
-
-        echo "Area of Rectangle: $area\n";
-        echo "Perimeter of Rectangle: $perimeter";
+    echo "Area (Rectangle): " . calculateRectangleArea(12, 6) . "<br>";
+    echo "Area (Square): " . calculateRectangleArea(10); 
         ?>
     </div>
 
@@ -110,8 +105,22 @@
         <?php
         // TODO: Write your solution here
         function getArrayStats(array $numbers) {
-            if($numbers)
-        }
+    if (empty($numbers)) {
+        return [0, 0, 0];
+    }
+    
+    $min = min($numbers);
+    $max = max($numbers);
+    $avg = array_sum($numbers) / count($numbers);
+    
+    return [$min, $max, $avg];
+}
+
+
+    $myNumbers = [10, 20, 30, 40, 50];
+    [$min, $max, $avg] = getArrayStats($myNumbers);
+
+    echo "Min: $min, Max: $max, Average: $avg";
 
         ?>
     </div>

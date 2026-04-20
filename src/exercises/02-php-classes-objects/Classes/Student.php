@@ -10,9 +10,16 @@ class Student {
         $this->name = $name;
         $this->number = $number;
 
-        // Add this student to the static registry
         self::$students[$number] = $this;
         echo "Creating student: {$this->name}<br>";
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getNumber() {
+        return $this->number;
     }
 
     public static function getCount() {

@@ -6,18 +6,25 @@
 // =============================================================================
 
 // TODO Exercise 1: Start the session
-
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // TODO Exercise 2: Redirect to step 1 if quiz not started or not complete
 // Check if $_SESSION['food_quiz'] exists AND 'completed_at' is set
 // If not, redirect to step1.php
-
+if (!isset($_SESSION['food_quiz']) || !isset($_SESSION['food_quiz']['completed_at'])) {
+    header('Location: step1.php');
+    exit;
+}
 
 // Get quiz data (this is provided, but depends on your session being set up correctly)
 $answers = isset($_SESSION['food_quiz']['answers']) ? $_SESSION['food_quiz']['answers'] : [];
 $startedAt = isset($_SESSION['food_quiz']['started_at']) ? $_SESSION['food_quiz']['started_at'] : 'N/A';
 $completedAt = isset($_SESSION['food_quiz']['completed_at']) ? $_SESSION['food_quiz']['completed_at'] : 'N/A';
 
+$cuisine = $answers['cuisine'] ?? 'italian';
+$spiceLevel = $answers['spice_level'] ?? 'mild';
 // Food recommendations based on answers (this is provided)
 $recommendations = [
     'italian' => ['Pizza Margherita', 'Pasta Carbonara', 'Tiramisu'],
@@ -28,6 +35,11 @@ $recommendations = [
 
 $cuisine = isset($answers['cuisine']) ? $answers['cuisine'] : 'italian';
 $recommendation = isset($recommendations[$cuisine]) ? $recommendations[$cuisine] : $recommendations['italian'];
+
+if ($spiceLevel === 'extra_hot') {
+    $recommendation[0] = 'Spicy ' . $recommendation[0];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

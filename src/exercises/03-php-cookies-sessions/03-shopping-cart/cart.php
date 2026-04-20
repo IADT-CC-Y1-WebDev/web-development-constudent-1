@@ -11,6 +11,9 @@ require_once './etc/config.php';
 // Exercise 1: Start the session
 // -----------------------------------------------------------------------------
 // TODO: Write your code here
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // =============================================================================
 
@@ -18,7 +21,7 @@ require_once './etc/config.php';
 // Exercise 2: Initialize the cart
 // -----------------------------------------------------------------------------
 // TODO: Write your code here
-
+$cart = ShoppingCart::getInstance();
 // =============================================================================
 
 // =============================================================================
@@ -29,7 +32,11 @@ require_once './etc/config.php';
 // 3. Redirect back to cart.php
 // -----------------------------------------------------------------------------
 // TODO: Write your code here
-
+if (isset($_GET['remove'])) {
+    $cart->remove((int)$_GET['remove']);
+    header('Location: cart.php');
+    exit;
+}
 // =============================================================================
 
 // =============================================================================
@@ -39,7 +46,11 @@ require_once './etc/config.php';
 // 2. Redirect back to cart.php
 // -----------------------------------------------------------------------------
 // TODO: Write your code here
-
+if (isset($_GET['clear'])) {
+    $cart->clear();
+    header('Location: cart.php');
+    exit;
+}
 // =============================================================================
 
 // =============================================================================
@@ -50,12 +61,16 @@ require_once './etc/config.php';
 // 3. Redirect back to cart.php
 // -----------------------------------------------------------------------------
 // TODO: Write your code here
-
+if (isset($_GET['update']) && isset($_GET['qty'])) {
+    $cart->updateQuantity((int)$_GET['update'], (int)$_GET['qty']);
+    header('Location: cart.php');
+    exit;
+}
 // =============================================================================
 
 // Retrieve the cart count and total
-$cartTotal = isset($cart) ? $cart->getTotal() : 0;
-$cartCount = isset($cart) ? $cart->getCount() : 0;
+$cartCount = $cart->getCount();
+$cartTotal = $cart->getTotal();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -175,7 +190,11 @@ $cartCount = isset($cart) ? $cart->getCount() : 0;
                             // -------------------------------------------------
                             ?>
                             <span class="qty-links">
+                                <a href="?update=<?= $item->productId ?>&qty=<?= $item->quantity - 1 ?>">-</a>
+    
                                 <?= $item->quantity ?>
+    
+                            <a href="?update=<?= $item->productId ?>&qty=<?= $item->quantity + 1 ?>">+</a>
                             </span>
                             <?php
                             // =================================================

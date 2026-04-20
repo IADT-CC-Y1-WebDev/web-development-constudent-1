@@ -106,36 +106,38 @@ echo "</ul>";
     <div class="output">
         <?php
         // TODO: Write your solution here
-        $Starters = [
-            'starters' => [
-            "Chicken wings" => "$9.99",
-            "Mash potatoes " => "$12.99",
-            "Beef stew" => "$4.99",
-            "Fries" => "$3.99",
-            "Sweet potatoe fries" => "$2.99"
-            ]
-    ];
-        $Maincourse = [
-            'maincourse' => [
-            "Chicken" => "$14.99",
-            "potatoes " => "$4.99",
-            "Beef" => "$28.99",
-            "beans" => "$3.99",
-            "Squid" => "$22.99"
-            ]
-    ];
-        echo "<ul>";
-        $text = 
-        "<li><b>Starters:</b>{$Starters['starters']}" . 
-        "<li><b>Main Course:</b>{$Maincourse['maincourse']}";
+        $menu = [
+    "Starters" => [
+        "Chicken wings" => "$9.99",
+        "Mash potatoes" => "$12.99",
+        "Beef stew" => "$4.99",
+        "Fries" => "$3.99",
+        "Sweet potato fries" => "$2.99"
+    ],
+    "Main Course" => [
+        "Chicken" => "$14.99",
+        "Potatoes" => "$4.99",
+        "Beef" => "$28.99",
+        "Beans" => "$3.99",
+        "Squid" => "$22.99"
+    ]
+];
 
-        print("<p>$text</p>");
-        echo "</ul>";
-            
-         echo "<p>Our Cheapest Item is Sweet Potatoe Fries at {$Starters['starters']['Sweet potatoe fries']}.</p>";
-         
+    echo "<ul>";
+    foreach ($menu as $category => $items) {
+    echo "<li><b>$category:</b><ul>";
+    foreach ($items as $item => $price) {
+        echo "<li>$item: $price</li>";
+    }
+    echo "</ul></li>";
+    }
+    echo "</ul>";
 
-        ?>
+
+    echo "<p>Our Cheapest Item is Sweet Potato fries at {$menu['Starters']['Sweet potato fries']}.</p>";
+    ?>
+
+        
     </div>
 
 </body>

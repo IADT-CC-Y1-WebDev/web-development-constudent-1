@@ -23,7 +23,7 @@
     </p>
     <ol>
         <li>Create a new folder called <code>College</code> inside the <code>classes/</code> folder</li>
-        <li>Copy your <code>Student.php</code> file into the <code>classes/College/</code> folder</li>
+        <li>Copy your <code>Student.php</code> file into the <code>Classes/College/</code> folder</li>
         <li>Edit <code>classes/College/Student.php</code> to add <code>namespace College;</code> at the very top (after <code>&lt;?php</code>)</li>
     </ol>
     <p>
