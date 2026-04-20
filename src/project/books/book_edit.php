@@ -142,9 +142,10 @@ catch (Exception $e) {
             </div>
         </form>
     </div>
+
+</body>
+</html>
     <?php 
     clearFormData();
     clearFormErrors();
     ?>
-</body>
-</html>

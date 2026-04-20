@@ -7,6 +7,12 @@ require_once 'php/lib/forms.php';
 startSession();
 
 try {
+
+        // Initialize form data array
+    $data = [];
+    // Initialize errors array
+    $errors = [];
+
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         throw new Exception('Invalid request method.');
     }
@@ -32,8 +38,9 @@ try {
     $validator = new Validator($data, $rules);
 
     if ($validator->fails()) {
-        setFormErrors($validator->errors());
-        setFormData($data);
+         foreach ($validator->errors() as $field => $fieldErrors) {
+            $errors[$field] = $fieldErrors[0];
+        }
         throw new Exception('Validation failed.');
     }
 
@@ -68,5 +75,8 @@ try {
 
 } catch (Exception $e) {
     setFlashMessage('error', 'Error: ' . $e->getMessage());
+    // Store form data and errors in session
+    setFormData($data);
+    setFormErrors($errors);
     redirect('book_create.php');
 }

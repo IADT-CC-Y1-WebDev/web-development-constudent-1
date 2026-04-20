@@ -1,8 +1,8 @@
 <?php
 function old($key, $default=null) {
     $result = $default;
-    if (isset($_SESSION["form-data"])) {
-        $data = $_SESSION["form-data"];
+    if (isset($_SESSION["form_data"])) {
+        $data = $_SESSION["form_data"];
         if (is_array($data) && array_key_exists($key, $data)) {
             $result = $data[$key];
         }
@@ -12,8 +12,8 @@ function old($key, $default=null) {
   
 function error($key) {
     $result = null;
-    if (isset($_SESSION["form-errors"])) {
-        $errors = $_SESSION["form-errors"];
+    if (isset($_SESSION["form_errors"])) {
+        $errors = $_SESSION["form_errors"];
         if (is_array($errors) && array_key_exists($key, $errors)) {
             $result = $errors[$key];
         }
@@ -23,8 +23,8 @@ function error($key) {
 
 function chosen($key, $search, $default=null) {
     $result = FALSE;
-    if (isset($_SESSION["form-data"])) {
-        $data = $_SESSION["form-data"];
+    if (isset($_SESSION["form_data"])) {
+        $data = $_SESSION["form_data"];
         if (is_array($data) && array_key_exists($key, $data)) {
             $value = $data[$key];
             if (is_array($value)) {
