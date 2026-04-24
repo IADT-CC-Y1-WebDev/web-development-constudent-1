@@ -8,9 +8,7 @@ startSession();
 
 try {
 
-        // Initialize form data array
     $data = [];
-    // Initialize errors array
     $errors = [];
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -75,7 +73,6 @@ try {
 
 } catch (Exception $e) {
     setFlashMessage('error', 'Error: ' . $e->getMessage());
-    // Store form data and errors in session
     setFormData($data);
     setFormErrors($errors);
     redirect('book_create.php');

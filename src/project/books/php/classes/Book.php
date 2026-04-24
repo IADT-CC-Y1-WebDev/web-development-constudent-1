@@ -78,7 +78,6 @@ class Book {
         $stmt = $this->db->prepare($sql);
         $status = $stmt->execute($params);
 
-        // Check for errors
         if (!$status) {
             $error_info = $stmt->errorInfo();
             $message = sprintf(
@@ -89,12 +88,10 @@ class Book {
             throw new Exception($message);  
         }
 
-        // Ensure one row affected
         if ($stmt->rowCount() !== 1) {
             throw new Exception("Failed to save book.");
         }
 
-        // Set ID for new records
         if ($this->id === null) {
             $this->id = $this->db->lastInsertId();
         }        

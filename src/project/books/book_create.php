@@ -42,7 +42,7 @@ catch (PDOException $e) {
                         <div>
                             <input type="text" id="title" name="title" value="<?= old('title') ?>" required>
                             <span id="title_error" class="error"></span>
-                            <p><?= error('title') ?></p>
+                            <?php if ($err = error('title')): ?><p class="error"><?= $err ?></p><?php endif; ?>
                         </div>
                     </div>
 
@@ -51,7 +51,7 @@ catch (PDOException $e) {
                         <div>
                             <input type="text" id="author" name="author" value="<?= old('author') ?>" required>
                             <span id="author_error" class="error"></span>
-                            <p><?= error('author') ?></p>
+                            <?php if ($err = error('author')): ?><p class="error"><?= $err ?></p><?php endif; ?>
                         </div>
                     </div>
 
@@ -67,7 +67,7 @@ catch (PDOException $e) {
                                 <?php } ?>
                             </select>
                             <span id="publisher_id_error" class="error"></span>
-                            <p><?= error('publisher_id') ?></p>
+                            <?php if ($err = error('publisher_id')): ?><p class="error"><?= $err ?></p><?php endif; ?>
                         </div>
                     </div>
 
@@ -76,7 +76,7 @@ catch (PDOException $e) {
                         <div>
                             <input type="number" id="year" name="year" value="<?= old('year') ?>" required>
                             <span id="year_error" class="error"></span>
-                            <p><?= error('year') ?></p>
+                            <?php if ($err = error('year')): ?><p class="error"><?= $err ?></p><?php endif; ?>
                         </div>
                     </div>
 
@@ -85,7 +85,7 @@ catch (PDOException $e) {
                         <div>
                             <input type="text" id="isbn" name="isbn" value="<?= old('isbn') ?>" required>
                             <span id="isbn_error" class="error"></span>
-                            <p><?= error('isbn') ?></p>
+                            <?php if ($err = error('isbn')): ?><p class="error"><?= $err ?></p><?php endif; ?>
                         </div>
                     </div>
 
@@ -94,19 +94,13 @@ catch (PDOException $e) {
                         <div class="checkbox-group">
                             <?php foreach ($formats as $format) { ?>
                                 <div>
-                                    <input type="checkbox" 
-                                           id="format_<?= h($format->id) ?>" 
-                                           name="format_ids[]" 
-                                           value="<?= h($format->id) ?>"
-                                           <?= chosen('format_ids', $format->id) ? "checked" : "" ?>>
-                                    <label for="format_<?= h($format->id) ?>">
-                                        <?= h($format->name) ?>
-                                    </label>
+                                    <input type="checkbox" id="format_<?= h($format->id) ?>" name="format_ids[]" value="<?= h($format->id) ?>" <?= chosen('format_ids', $format->id) ? "checked" : "" ?>>
+                                    <label for="format_<?= h($format->id) ?>"><?= h($format->name) ?></label>
                                 </div>
                             <?php } ?>
                         </div>
                         <span id="format_ids_error" class="error"></span>
-                        <p><?= error('format_ids') ?></p>
+                        <?php if ($err = error('format_ids')): ?><p class="error"><?= $err ?></p><?php endif; ?>
                     </div>
 
                     <div class="input">
@@ -114,7 +108,7 @@ catch (PDOException $e) {
                         <div>
                             <textarea id="description" name="description" rows="5" required><?= old('description') ?></textarea>
                             <span id="description_error" class="error"></span>
-                            <p><?= error('description') ?></p>
+                            <?php if ($err = error('description')): ?><p class="error"><?= $err ?></p><?php endif; ?>
                         </div>
                     </div>
 
@@ -123,7 +117,7 @@ catch (PDOException $e) {
                         <div>
                             <input type="file" id="cover" name="cover" accept="image/*" required>
                             <span id="cover_error" class="error"></span>
-                            <p><?= error('cover') ?></p>
+                            <?php if ($err = error('cover')): ?><p class="error"><?= $err ?></p><?php endif; ?>
                         </div>
                     </div>
 
